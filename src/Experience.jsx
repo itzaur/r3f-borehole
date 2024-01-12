@@ -1,16 +1,18 @@
 import '../src/styles/App.scss';
 
-import { OrbitControls } from '@react-three/drei';
+import { useThree } from '@react-three/fiber';
 import { Perf } from 'r3f-perf';
 import { useControls } from 'leva';
 
-import Cube from './components/Cube';
+import Background from './components/Background';
 
 export default function Experience() {
+  const { viewport } = useThree();
+
   const options = useControls({
     debug: { value: false },
     colorBg: {
-      value: '#000000',
+      value: '#ffffff',
     },
   });
 
@@ -18,11 +20,9 @@ export default function Experience() {
     <>
       {options.debug && <Perf position='top-left' />}
 
-      <OrbitControls makeDefault />
-
       <color attach='background' args={[options.colorBg]} />
 
-      <Cube size={[2, 2, 2, 12, 12, 12]} position={[0, 0, 0]} />
+      <Background size={[2, 2]} scale={[viewport.width, viewport.height, 1]} />
     </>
   );
 }
