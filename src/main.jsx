@@ -5,7 +5,7 @@ import { Canvas } from '@react-three/fiber';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <Canvas flat>
+    <Canvas flat orthographic>
       <Experience />
     </Canvas>
   </React.StrictMode>
