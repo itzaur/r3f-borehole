@@ -4,5 +4,23 @@ html {
 }
 
 #root {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  width: 100vw;
   height: 100svh;
+  height: 100vh;
+
+  overflow: hidden;
+}
+
+.scroll {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  font-size: 6rem;
+
+  color: white;
 }

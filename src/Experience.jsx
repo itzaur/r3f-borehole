@@ -1,28 +1,40 @@
 import '../src/styles/App.scss';
-
-import { useThree } from '@react-three/fiber';
-import { Perf } from 'r3f-perf';
-import { useControls } from 'leva';
-
-import Background from './components/Background';
+import { Suspense } from 'react';
+import { Canvas } from '@react-three/fiber';
+import { Scroll, ScrollControls } from '@react-three/drei';
+import { Leva, useControls } from 'leva';
+import source from './resources.js';
+import Content from './components/Content.jsx';
 
 export default function Experience() {
-  const { viewport } = useThree();
-
-  const options = useControls({
-    debug: { value: false },
-    colorBg: {
-      value: '#ffffff',
+  const { color } = useControls({
+    color: {
+      value: source.bg,
     },
   });
 
   return (
     <>
-      {options.debug && <Perf position='top-left' />}
+      <Canvas flat shadows gl={{ alpha: false, antialias: true }}>
+        <color attach='background' args={[color]} />
 
-      <color attach='background' args={[options.colorBg]} />
+        <directionalLight />
+        <ambientLight />
 
-      <Background size={[2, 2]} scale={[viewport.width, viewport.height, 1]} />
+        <Suspense fallback={null}>
+          <ScrollControls
+            pages={window.innerWidth > 400 ? 3.5 : 5.5}
+            distance={0.5}
+            damping={0.5}
+          >
+            <Scroll>
+              <Content />
+            </Scroll>
+          </ScrollControls>
+        </Suspense>
+      </Canvas>
+
+      <Leva collapsed />
     </>
   );
 }

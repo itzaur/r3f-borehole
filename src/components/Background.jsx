@@ -1,18 +1,18 @@
 import * as THREE from 'three';
 import { useEffect, useMemo, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
+import { useControls } from 'leva';
+import { useTexture } from '@react-three/drei';
+import source from '../resources.js';
 import vertexShader from '../../src/shaders/vertexShader.glsl';
 import fragmentShader from '../../src/shaders/fragmentShader.glsl';
-import { useControls } from 'leva';
-import resources from '../resources.js';
-import { useTexture } from '@react-three/drei';
 
 export default function Background(props) {
   const { size, scale } = props || {};
   const mesh = useRef();
   const material = useRef();
 
-  const texturesUrls = resources
+  const texturesUrls = source.textures
     .filter((texture) => texture.url)
     .map((el) => el.url);
 
