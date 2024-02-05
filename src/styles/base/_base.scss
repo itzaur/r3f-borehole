@@ -15,6 +15,10 @@ html {
   overflow: hidden;
 }
 
+canvas {
+  display: block;
+}
+
 .scroll {
   position: fixed;
   top: 0;

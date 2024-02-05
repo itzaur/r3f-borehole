@@ -12,13 +12,13 @@ const source = {
       text: `Бурение скважин на воду`,
       images: ['./images/1.jpg'],
     },
-    { id: 1, tag: '1', text: 'Some Text', images: ['./images/1.jpg'] },
     {
-      id: 2,
+      id: 1,
       tag: '2',
       text: 'New Text',
       images: ['./images/2.jpg', './images/3.jpg', './images/4.jpg'],
     },
+    { id: 2, tag: '1', text: 'Some Text', images: ['./images/1.jpg'] },
   ],
   textures: [
     { name: 'MapColor', url: 'https://iili.io/HED0SXj.png' },
@@ -31,6 +31,14 @@ const source = {
       url: 'https://raw.githubusercontent.com/pizza3/asset/master/chaassets/Lava/Lava_001_OCC.webp',
     },
   ],
+  images: [
+    { image: './images/1.jpg', id: 0 },
+    { image: './images/2.jpg', id: 1 },
+    { image: './images/3.jpg', id: 2 },
+    { image: './images/4.jpg', id: 3 },
+    { image: './images/1.jpg', id: 4 },
+  ],
+
   depthbox: [
     {
       depth: 0,

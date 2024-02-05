@@ -2,22 +2,24 @@ import * as THREE from 'three';
 import { useFrame, useLoader, useThree } from '@react-three/fiber';
 import { Perf } from 'r3f-perf';
 import { useControls } from 'leva';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Box, Flex } from '@react-three/flex';
 import { useScroll, useAspect } from '@react-three/drei';
 
 import Background from './Background.jsx';
 import LayerCard from './LayerCard.jsx';
-import Page from './Page.jsx';
 import source from '../resources.js';
 import Text from './Text.jsx';
 import Cube from './Cube.jsx';
+import CardItem from './CardItem.jsx';
 
 export default function Content() {
   const group = useRef();
   const { viewport } = useThree();
   const [boxWidth, boxHeight] = useAspect(1920, 1920, 0.5);
   const texture = useLoader(THREE.TextureLoader, source.depthbox[0].image);
+
+  const [activePlane, setActivePlane] = useState(null);
 
   const options = useControls({
     debug: { value: false },
@@ -154,9 +156,24 @@ export default function Content() {
             flexWrap='wrap'
             width='100%'
           >
-            {source.content.map((props, index) => (
+            {/* {source.content.map((props, index) => (
               <Page key={index} {...props} />
-            ))}
+            ))} */}
+            <group
+            // ref={setCardsRoot}
+            >
+              {source.images.map((item, i) => (
+                <CardItem
+                  key={item.id}
+                  index={i}
+                  // width={1}
+                  // height={2}
+                  item={item}
+                  activePlane={activePlane}
+                  setActivePlane={setActivePlane}
+                />
+              ))}
+            </group>
           </Box>
 
           <Box
