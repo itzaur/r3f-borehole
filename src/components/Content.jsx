@@ -150,11 +150,14 @@ export default function Content() {
           </Box>
 
           <Box
+            debug
             flexDirection='row'
             alignItems='center'
             justifyContent='center'
             flexWrap='wrap'
-            width='100%'
+            width='auto'
+            height='auto'
+            marginTop={0.5}
           >
             {/* {source.content.map((props, index) => (
               <Page key={index} {...props} />
@@ -163,15 +166,35 @@ export default function Content() {
             // ref={setCardsRoot}
             >
               {source.images.map((item, i) => (
+                // <Box
+                //   key={item.id}
+                //   width='auto'
+                //   height='auto'
+                //   padding={0}
+
+                //   // flexGrow={1}
+                //   // marginTop={4}
+                // >
+
                 <CardItem
                   key={item.id}
                   index={i}
                   // width={1}
                   // height={2}
                   item={item}
+                  // text={item.text}
                   activePlane={activePlane}
                   setActivePlane={setActivePlane}
+                  boxWidth={boxWidth}
+                  boxHeight={boxHeight}
+                  textScaleFactor={fontScale}
+                  {...source.images[i]}
+                  text={source.images[i].text}
+                  tag={source.images[i].tag}
+                  position-z={-0.9}
                 />
+
+                // </Box>
               ))}
             </group>
           </Box>

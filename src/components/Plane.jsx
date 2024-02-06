@@ -8,11 +8,27 @@ import gsap from 'gsap';
 import fragmentShader from '../shaders/cards/fragmentShader.glsl';
 import vertexShader from '../shaders/cards/vertexShader.glsl';
 
-const Plane = ({ texture, width, height, active, ...props }) => {
+import Text from './Text';
+
+const Plane = ({
+  texture,
+  width,
+  height,
+  active,
+  text,
+  boxWidth,
+  boxHeight,
+  depth,
+  textColor,
+  textScaleFactor,
+  id,
+  tag,
+  ...props
+}) => {
   const mesh = useRef();
   const box = useRef();
   const plane = useRef();
-  const { size } = useThree();
+  const { size, viewport } = useThree();
 
   const tex = useTexture(texture);
 
@@ -48,15 +64,15 @@ const Plane = ({ texture, width, height, active, ...props }) => {
     width: 'auto',
     height: 'auto',
     grow: 1,
-    margin: 0.5,
-    padding: 0.5,
+    margin: 1,
+    paddingTop: 0.8,
     flexWrap: 'wrap',
     alignItems: 'center',
     justifyContent: 'center',
-    maxWidth: 6,
-    maxHeight: 7,
-    minWidth: 3,
-    minHeight: 4,
+    maxWidth: 7,
+    maxHeight: 8,
+    minWidth: 5.5,
+    minHeight: 7,
   };
 
   const timeline = useRef();
@@ -80,17 +96,78 @@ const Plane = ({ texture, width, height, active, ...props }) => {
   }
 
   return (
-    <Box ref={box} {...boxProps}>
+    <Box
+      ref={box}
+      {...boxProps}
+      justify='center'
+      align='center'
+      alignSelf='center'
+      centerAnchor
+      position-z={-2}
+    >
       {(width, height) => (
-        <mesh
-          ref={mesh}
-          {...props}
-          onPointerDown={onPointerDown}
-          onPointerUp={onPointerUp}
-        >
-          <planeGeometry args={[width, height, 32, 32]} ref={plane} />
-          <shaderMaterial args={[shaderProps]} />
-        </mesh>
+        <>
+          <mesh
+            ref={mesh}
+            {...props}
+            onPointerDown={onPointerDown}
+            onPointerUp={onPointerUp}
+          >
+            <planeGeometry args={[width, height, 32, 32]} ref={plane} />
+            <shaderMaterial args={[shaderProps]} />
+          </mesh>
+
+          <Box
+            // alignContent='center'
+            alignItems='center'
+            // alignSelf='center'
+            justify='center'
+            width='auto'
+            height='auto'
+            centerAnchor
+            position-z={-2}
+
+            // alignItems='flex-start'
+          >
+            <Text
+              bold
+              position={[-width / 1.15, height - 0.2, depth - 0.5]}
+              maxWidth={(boxWidth / 3) * 1.7}
+              // maxHeight={boxHeight / 2}
+              // width={boxWidth}
+              anchorX='left'
+              anchorY='top'
+              fontSize={0.3}
+              lineHeight={1.2}
+              letterSpacing={-0.05}
+              color={textColor}
+            >
+              {text}
+              <meshBasicMaterial color='#ffffff' toneMapped={false} />
+            </Text>
+          </Box>
+
+          <Box justify='flex-start' align='space-between'>
+            <Text
+              bold
+              position={[-width / 2, height + 0.8, depth]}
+              fontSize={0.6 * textScaleFactor}
+              lineHeight={1}
+              letterSpacing={-0.05}
+              maxWidth={(viewport.width / 4) * 1.9}
+              anchorX='bottom'
+              anchorY='middle'
+              // textAlign='left'
+            >
+              {tag}
+              <meshNormalMaterial
+                color='#cccccc'
+                opacity={0.4}
+                toneMapped={false}
+              />
+            </Text>
+          </Box>
+        </>
       )}
     </Box>
   );

@@ -1,18 +1,28 @@
 import { useEffect, useRef, useState } from 'react';
 import Plane from './Plane';
-import { Box } from '@react-three/flex';
-import gsap from 'gsap';
 import { useThree } from '@react-three/fiber';
 
-const CardItem = ({
-  index,
-  width,
-  height,
-  item,
-  activePlane,
-  setActivePlane,
-}) => {
+const CardItem = (props) => {
+  const {
+    depth,
+    boxWidth,
+    boxHeight,
+    text,
+    textColor,
+    color,
+    map,
+    textScaleFactor,
+    index,
+    width,
+    height,
+    item,
+    tag,
+    activePlane,
+    setActivePlane,
+  } = props || {};
+
   const cardItem = useRef();
+  const { viewport } = useThree();
   const [isActive, setIsActive] = useState(false);
 
   useEffect(() => {
@@ -24,9 +34,13 @@ const CardItem = ({
   }, [activePlane, index]);
 
   return (
-    <group ref={cardItem}>
-      <Plane texture={item.image} active={isActive} />
-    </group>
+    <>
+      {/* <group ref={cardItem}> */}
+
+      <Plane texture={item.image} active={isActive} {...props} />
+
+      {/* </group> */}
+    </>
   );
 };
 

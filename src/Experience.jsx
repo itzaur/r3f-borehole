@@ -23,7 +23,7 @@ export default function Experience() {
 
         <Suspense fallback={null}>
           <ScrollControls
-            pages={window.innerWidth > 400 ? 3.5 : 5.5}
+            pages={window.innerWidth > 400 ? 6 : 5.5}
             distance={0.5}
             damping={0.5}
           >
