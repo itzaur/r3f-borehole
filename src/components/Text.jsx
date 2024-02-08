@@ -8,7 +8,7 @@ export default function Text({
   textAlign = 'left',
   ...props
 }) {
-  const font = './font/IgraSans.otf';
+  const font = './font/DelaGothicOne-Regular.ttf';
   // const reflow = useReflow();
 
   return (

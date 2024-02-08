@@ -1,10 +1,9 @@
 import '../src/styles/App.scss';
 import { Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { Scroll, ScrollControls } from '@react-three/drei';
+// import {  ScrollControls } from '@react-three/drei';
 import { Leva, useControls } from 'leva';
 import source from './resources.js';
-import Content from './components/Content.jsx';
 import ScrollBasedAnimation from './components/ScrollBasedAnimation.jsx';
 
 export default function Experience() {

@@ -29,6 +29,7 @@ module.exports = {
           'toneMapped',
           'dispose',
           'transparent',
+          'wireframe',
         ],
       },
     ],

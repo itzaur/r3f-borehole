@@ -9,7 +9,7 @@ const source = {
     {
       id: 0,
       tag: '0',
-      text: `Бурение скважин на воду`,
+      text: `БУРЕНИЕ СКВАЖИН НА ВОДУ`,
       images: ['./images/1.jpg'],
     },
     {

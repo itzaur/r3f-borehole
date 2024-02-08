@@ -38,7 +38,7 @@ export default function LayerCard(props) {
       <Text
         bold
         position={[boxWidth / 2, -boxHeight / 2 + 0.4, depth + 1.5]}
-        maxWidth={(viewport.width / 3) * 1}
+        maxWidth={(viewport.width / 2.5) * 1}
         anchorX='center'
         anchorY='middle'
         fontSize={(window.innerWidth < 768 ? 0.6 : 0.4) * textScaleFactor}
