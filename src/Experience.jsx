@@ -5,6 +5,7 @@ import { Scroll, ScrollControls } from '@react-three/drei';
 import { Leva, useControls } from 'leva';
 import source from './resources.js';
 import Content from './components/Content.jsx';
+import ScrollBasedAnimation from './components/ScrollBasedAnimation.jsx';
 
 export default function Experience() {
   const { color } = useControls({
@@ -22,15 +23,16 @@ export default function Experience() {
         <ambientLight />
 
         <Suspense fallback={null}>
-          <ScrollControls
-            pages={window.innerWidth > 400 ? 6 : 5.5}
+          {/* <ScrollControls
+            pages={window.innerWidth > 768 ? 6 : 5.5}
             distance={0.5}
             damping={0.5}
           >
             <Scroll>
               <Content />
             </Scroll>
-          </ScrollControls>
+          </ScrollControls> */}
+          <ScrollBasedAnimation />
         </Suspense>
       </Canvas>
 

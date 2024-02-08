@@ -37,11 +37,11 @@ export default function LayerCard(props) {
       </mesh>
       <Text
         bold
-        position={[boxWidth / 2, -boxHeight / 2 + 0.2, depth + 1.5]}
-        maxWidth={(viewport.width / 4) * 1}
+        position={[boxWidth / 2, -boxHeight / 2 + 0.4, depth + 1.5]}
+        maxWidth={(viewport.width / 3) * 1}
         anchorX='center'
         anchorY='middle'
-        fontSize={0.4 * textScaleFactor}
+        fontSize={(window.innerWidth < 768 ? 0.6 : 0.4) * textScaleFactor}
         lineHeight={1}
         letterSpacing={-0.05}
         color={textColor}

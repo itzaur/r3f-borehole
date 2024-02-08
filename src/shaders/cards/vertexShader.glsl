@@ -16,7 +16,7 @@ void main() {
     float stickEffect = mix(stickTo, stickOut, uDirection);
 
     float newProgress = min(2.0 * uProgress, 2.0 * (1.0 - uProgress));
-    float zOffset = 0.3;
+    float zOffset = 1.4;
 
     float zProgress = mix(clamp(2.0 * uProgress, 0.0, 1.0), clamp(1.0 - 2.0 * (1.0 - uProgress), 0.0, 1.0), uDirection);
 

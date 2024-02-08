@@ -1,5 +1,5 @@
 import { Text as TextPage } from '@react-three/drei';
-import { useReflow } from '@react-three/flex';
+// import { useReflow } from '@react-three/flex';
 
 export default function Text({
   bold = false,
@@ -9,7 +9,7 @@ export default function Text({
   ...props
 }) {
   const font = './font/IgraSans.otf';
-  const reflow = useReflow();
+  // const reflow = useReflow();
 
   return (
     <TextPage
@@ -17,7 +17,7 @@ export default function Text({
       anchorY={anchorY}
       textAlign={textAlign}
       font={font}
-      onSync={reflow}
+      // onSync={reflow}
       {...props}
     />
   );

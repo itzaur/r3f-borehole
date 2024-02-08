@@ -12,12 +12,12 @@ export default function Cube(props) {
   const mesh = useRef();
   // const material = useRef();
 
-  useFrame((state) => {
-    const time = state.clock.elapsedTime;
+  // useFrame((state) => {
+  //   const time = state.clock.elapsedTime;
 
-    mesh.current.rotation.y = time * 0.2;
-    mesh.current.rotation.x = time * 0.2;
-  });
+  //   mesh.current.rotation.y = time * 0.2;
+  //   mesh.current.rotation.x = time * 0.2;
+  // });
 
   // const { color, wireframe, position } = useControls('mesh', {
   //   color: {
@@ -72,8 +72,7 @@ export default function Cube(props) {
       0.03
     );
 
-    mesh.current.material.opacity = 1 - scroll.range(0.5, 0.12);
-    // console.log(mesh.current.material.opacity);
+    mesh.current.material.opacity = scroll.range(0.95, 0.02);
   });
 
   return (
@@ -81,7 +80,7 @@ export default function Cube(props) {
       <group ref={group}>
         <mesh ref={mesh}>
           <boxGeometry args={size} />
-          <meshStandardMaterial />
+          <meshBasicMaterial attach='material' transparent />
         </mesh>
         {/* <mesh>
           <sphereGeometry />
