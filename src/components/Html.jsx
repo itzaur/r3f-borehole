@@ -54,7 +54,7 @@ export default function Html() {
       .to(
         installment.current,
         {
-          opacity: scroll.range(0.17, 0.15),
+          opacity: scroll.range(0.17, 0.1),
         },
         '<0'
       )
@@ -68,14 +68,14 @@ export default function Html() {
       .to(
         subtitle.current,
         {
-          opacity: scroll.range(0.08, 0.1),
+          opacity: scroll.range(0.08, 0.12),
         },
         '<0'
       )
       .to(
         installmentInfo.current,
         {
-          opacity: scroll.range(0.18, 0.15),
+          opacity: scroll.range(0.18, 0.1),
         },
         '<0.2'
       )
@@ -83,7 +83,7 @@ export default function Html() {
         installmentDiscount.current,
         {
           y: `${scroll.offset * -350}`,
-          opacity: scroll.range(0.2, 0.15),
+          opacity: scroll.range(0.2, 0.1),
         },
         '<-0.2'
       )
@@ -104,7 +104,7 @@ export default function Html() {
       .to(
         pipes.current,
         {
-          opacity: scroll.range(0.4, 0.15),
+          opacity: scroll.range(0.4, 0.1),
         },
         '<0'
       )
@@ -112,14 +112,14 @@ export default function Html() {
         pipesInfo.current,
         {
           y: `${scroll.offset * -450}`,
-          opacity: scroll.range(0.43, 0.15),
+          opacity: scroll.range(0.43, 0.06),
         },
         '<-0.5'
       )
       .to(
         repair.current,
         {
-          opacity: scroll.range(0.51, 0.15),
+          opacity: scroll.range(0.51, 0.1),
         },
         '<0'
       )
@@ -127,7 +127,7 @@ export default function Html() {
         repairInfo.current,
         {
           y: `${scroll.offset * -450}`,
-          opacity: scroll.range(0.54, 0.15),
+          opacity: scroll.range(0.54, 0.1),
         },
         '<-0.5'
       )
@@ -157,6 +157,8 @@ export default function Html() {
         fontSize: fontSizeTitle,
 
         color: '#ffffff',
+
+        pointerEvents: 'none',
       }}
     >
       {/* <div

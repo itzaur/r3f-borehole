@@ -25,7 +25,7 @@ export default function LayerCard(props) {
   return (
     <>
       <mesh position={[boxWidth / 2, -boxHeight / 2, depth]}>
-        <planeGeometry args={[boxWidth, boxHeight]} />
+        <planeGeometry args={[boxWidth, boxHeight, 32, 32]} />
         <meshBasicMaterial
           ref={ref}
           color={color}
@@ -33,6 +33,7 @@ export default function LayerCard(props) {
           toneMapped={false}
           transparent
           opacity={1}
+          // wireframe
         />
       </mesh>
       <Text

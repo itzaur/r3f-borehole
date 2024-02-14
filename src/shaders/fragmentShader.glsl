@@ -17,12 +17,13 @@ vec3 pxSize;
 
 vec3 texsample(in vec2 uv, in vec2 sampleOffset, in sampler2D sampler_u) {
   uv += sampleOffset;
-  uv = (gl_FragCoord.xy - 0.5 * 2.0 * uResolution.xy) / min(uResolution.y, uResolution.x);
+  uv = (gl_FragCoord.xy - 0.5 * uResolution.xy) / min(uResolution.y, uResolution.x);
 
   return texture2D(sampler_u, uv).zyx;
 }
 
 float luminance(vec3 c) {
+
   return dot(c, vec3(.2126, .7152, .0722));
 }
 
@@ -41,8 +42,8 @@ vec3 normal(in vec2 uv, in sampler2D sampler_u, vec3 offset) {
 void renderLava(out vec4 fragColor, in vec2 uv, in vec2 movement, in vec2 fragCoord) {
   vec2 mouse = uMouse;
   if (uMousemoved == false) {
-    mouse.x = sin(uTime * 2.) * .5;
-    mouse.y = cos(uTime) * .5;
+    mouse.x = sin(uTime * 2.0) * 0.5;
+    mouse.y = cos(uTime) * 0.5;
   }
 
   pxSize = vec3(1. / uResolution, 0.);
@@ -50,17 +51,18 @@ void renderLava(out vec4 fragColor, in vec2 uv, in vec2 movement, in vec2 fragCo
   vec3 n = normal(uv + movement, uMapNormal, pxSize);
 
   #ifdef ENABLE_LIGHTING
-  vec3 lp = vec3((mouse.xy) + movement, .2);
+  vec3 lp = vec3((mouse.xy) + movement, 0.2);
   vec3 sp = vec3(uv + movement, 0.);
 
-  vec3 c = texsample(uv + movement, vec2(0.), uMapColor) * dot(n, normalize(lp - sp)) * clamp(1. - length((mouse.xy - uv)) * uRadius, 0., 1.) * uLightIntensity;
-  c *= c;
+  vec3 c = texsample(uv + movement, vec2(0.), uMapColor) * dot(n, normalize(lp - sp)) * clamp(1.0 - length((mouse.xy - uv)) * uRadius, 0.0, 1.0) * uLightIntensity;
+  // c *= c;
 
   #ifdef ENABLE_SPECULAR
   float e = DEPTH * (1. - texsample(uv + movement, vec2(0.), uMapRoughness).x);
   vec3 ep = vec3(.5, .5, 10.) + vec3(movement, 0.);
 
-  c += (pow(clamp(dot(normalize(reflect(lp - sp, n)), normalize(sp - ep)), 0., 1.), e) * (texsample(uv + movement, vec2(0.0), uMapRoughness).x)) * 0.1;
+  c += (pow(clamp(dot(normalize(reflect(lp - sp, n)), normalize(sp - ep)), 0., 1.), e) * (texsample(uv + movement, vec2(0.0), uMapRoughness).x)) * 0.01;
+
   #endif /* ENABLE_SPECULAR */
 
   #else
@@ -68,11 +70,12 @@ void renderLava(out vec4 fragColor, in vec2 uv, in vec2 movement, in vec2 fragCo
 
   #endif /* ENABLE_LIGHTING */
 
-  fragColor = vec4(c.bgr, 1);
+  fragColor = vec4(c.bgr, 1.0);
+  fragColor.b += c.g;
 }
 
 void main() {
-  vec2 uv = ((gl_FragCoord.xy - 0.5 * uResolution.xy) / min(uResolution.y, uResolution.x));
+  vec2 newUv = ((gl_FragCoord.xy - 0.5 * uResolution.xy) / min(uResolution.y, uResolution.x));
 
-  renderLava(gl_FragColor, uv, vec2(0.), gl_FragCoord.xy);
+  renderLava(gl_FragColor, newUv, vec2(0.), gl_FragCoord.xy);
 }
