@@ -17,6 +17,8 @@ import { useRef } from 'react';
 // import { Box } from '@react-three/drei';
 
 export default function Objects() {
+  const isMobile = window.innerWidth < 768;
+
   const { width, height } = useThree((state) => state.viewport);
 
   const [boxWidth, boxHeight] = useAspect(1920, 1920, 0.5);
@@ -111,32 +113,39 @@ export default function Objects() {
       <Item color='blue' position={[width * 0.35, -height * 1.55 - 0.3, -0.5]}>
         <boxGeometry args={[0.6, 0.6, 0.6]} />
       </Item>
-      <Item color='red' position={[width * 0.11, -height * 1.55 + 1, -0.4]}>
+      <Item
+        color='red'
+        position={[width * (isMobile ? -0.1 : 0.08), -height * 1.55 + 1, -0.4]}
+      >
         <boxGeometry args={[0.4, 0.4, 0.4]} />
       </Item>
 
       <NewPlane
-        position={[0, -height * 2.37, 0]}
+        position={[0, -height * (isMobile ? 2.2 : 2.37), 0]}
         texture={source.images[1].image}
         left={source.images[1].id % 2}
       />
 
       <Item
         color='orangered'
-        position={[width * -0.25, -height * 2.9, 0.18]}
+        position={[
+          width * (isMobile ? -0.16 : -0.25),
+          -height * (isMobile ? 2.75 : 2.9),
+          0.18,
+        ]}
         wireframe={true}
       >
         <boxGeometry args={[1, 1, 1, 16, 16, 16]} />
       </Item>
 
       <NewPlane
-        position={[0, -height * 3.7, 0]}
+        position={[0, -height * (isMobile ? 3.5 : 3.7), 0]}
         texture={source.images[2].image}
         left={source.images[2].id % 2}
       />
 
       <NewPlane
-        position={[0, -height * 4.6, 0]}
+        position={[0, -height * (isMobile ? 4.4 : 4.6), 0]}
         texture={source.images[3].image}
         left={source.images[3].id % 2}
       />
@@ -144,32 +153,43 @@ export default function Objects() {
       <Flex
         dir='column'
         // justify={left ? 'flex-end' : 'flex-start'}
-        position={[-viewport.width / 2, -viewport.height * 5.04, 0]}
+        position={[
+          -viewport.width,
+          -viewport.height * (isMobile ? 4.4 : 4.5),
+          0,
+        ]}
         size={[viewport.width, viewport.height, 0]}
-        // align={left ? 'flex-end' : 'flex-start'}
+        align='flex-end'
+        // justify='flex-start'
+        flexGrow={1}
       >
         <Box
           ref={layerCardRef}
-          dir='row'
-          width='100%'
-          height='100%'
-          align='center'
-          justify='center'
-          marginTop={0}
+          centerAnchor
+          // dir='row'
+          width='auto'
+          height='auto'
+          // align='center'
+          // justify='flex-start'
+          marginTop={isMobile ? 0 : 1.5}
+          // scale={isMobile ? 1.2 : 1.0}
+          // flexGrow={1}
+          // flexBasis='100%'
+          // flexShrink={1}
         >
           <Box>
             <LayerCard
               {...source.depthbox[0]}
               text={source.depthbox[1].text}
-              boxWidth={boxWidth}
-              boxHeight={boxHeight}
+              boxWidth={isMobile ? viewport.width : boxWidth}
+              boxHeight={isMobile ? viewport.height : boxHeight}
               map={texture}
               textScaleFactor={fontScale}
             />
             <Cube
               position={[
-                boxWidth / 2,
-                -boxHeight / 2 - 2.5,
+                isMobile ? viewport.width / 2 : boxWidth / 2,
+                isMobile ? -viewport.height / 2 - 2.3 : -boxHeight / 2 - 1.8,
                 source.depthbox[1].depth,
               ]}
             />

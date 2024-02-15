@@ -8,24 +8,9 @@ import fragmentShader from '../shaders/cards/fragmentShader.glsl';
 import vertexShader from '../shaders/cards/vertexShader.glsl';
 import { Box, Flex } from '@react-three/flex';
 
-const NewPlane = ({
-  texture,
-  left = false,
-  //   width,
-  //   height,
-  //   active,
-  //   text,
-  //   boxWidth,
-  //   boxHeight,
-  //   depth,
-  //   textColor,
-  //   textScaleFactor,
-  //   id,
-  //   tag,
-  ...props
-}) => {
+const NewPlane = (props) => {
+  const { texture, left = false } = props || {};
   const mesh = useRef();
-  //   const box = useRef();
   const plane = useRef();
   const { size, viewport } = useThree();
 

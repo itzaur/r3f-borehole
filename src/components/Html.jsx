@@ -68,7 +68,7 @@ export default function Html() {
       .to(
         subtitle.current,
         {
-          opacity: scroll.range(0.08, 0.12),
+          opacity: scroll.range(0.08, 0.08),
         },
         '<0'
       )
@@ -90,14 +90,14 @@ export default function Html() {
       .to(
         outfit.current,
         {
-          opacity: scroll.range(0.29, 0.08),
+          opacity: scroll.range(isMobile ? 0.25 : 0.29, 0.08),
         },
         '<0'
       )
       .to(
         outfitInfo.current,
         {
-          opacity: scroll.range(0.31, 0.08),
+          opacity: scroll.range(isMobile ? 0.27 : 0.31, 0.08),
         },
         '<-0.3'
       )
@@ -119,7 +119,7 @@ export default function Html() {
       .to(
         repair.current,
         {
-          opacity: scroll.range(0.51, 0.1),
+          opacity: scroll.range(isMobile ? 0.48 : 0.51, 0.1),
         },
         '<0'
       )
@@ -127,14 +127,14 @@ export default function Html() {
         repairInfo.current,
         {
           y: `${scroll.offset * -450}`,
-          opacity: scroll.range(0.54, 0.1),
+          opacity: scroll.range(isMobile ? 0.5 : 0.54, 0.1),
         },
         '<-0.5'
       )
       .to(
         arrangement.current,
         {
-          opacity: scroll.range(0.66, 0.1),
+          opacity: scroll.range(isMobile ? 0.63 : 0.66, 0.1),
         },
         '<-0.5'
       )
@@ -142,7 +142,7 @@ export default function Html() {
         arrangementInfo.current,
         {
           y: `${scroll.offset * -450}`,
-          opacity: scroll.range(0.68, 0.1),
+          opacity: scroll.range(isMobile ? 0.65 : 0.68, 0.1),
         },
         '<-0.5'
       );
@@ -161,22 +161,6 @@ export default function Html() {
         pointerEvents: 'none',
       }}
     >
-      {/* <div
-        style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: 'min(95vw, 35ch)',
-
-          fontFamily: 'Arial, sans-serif',
-          fontSize: fontSizeTitle,
-
-          color: '#ffffff',
-        }}
-      >
-        <a href='tel:+375 29 247-55-66'>+375 29 247-55-66</a>
-        <a href='tel:+375 29 627-23-72'>+375 29 627-23-72</a>
-      </div> */}
       <section
         className='text-block'
         style={{
@@ -288,7 +272,7 @@ export default function Html() {
       <section
         style={{
           position: 'absolute',
-          top: '283vh',
+          top: isMobile ? '275vh' : '283vh',
           left: isMobile ? '0' : `${MARGIN_LEFT}vw`,
 
           display: 'flex',
@@ -325,7 +309,7 @@ export default function Html() {
       <section
         style={{
           position: 'absolute',
-          top: '355vh',
+          top: isMobile ? '350vh' : '355vh',
           left: isMobile ? '0' : `${MARGIN_LEFT}vw`,
 
           display: 'flex',
@@ -360,7 +344,7 @@ export default function Html() {
       <section
         style={{
           position: 'absolute',
-          top: '430vh',
+          top: isMobile ? '420vh' : '430vh',
           left: isMobile ? '0' : `${MARGIN_LEFT}vw`,
 
           paddingLeft: '2rem',
@@ -399,7 +383,7 @@ export default function Html() {
       <section
         style={{
           position: 'absolute',
-          top: '525vh',
+          top: isMobile ? '520vh' : '525vh',
           left: isMobile ? '0' : `${MARGIN_LEFT}vw`,
 
           display: 'flex',

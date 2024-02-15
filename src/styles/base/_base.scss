@@ -32,27 +32,36 @@ canvas {
 .contacts {
   position: fixed;
   top: 0;
-  left: 0;
+  left: 50%;
+  translate: -50% 0;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 2rem;
+  width: 100%;
 
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: clamp(2rem, 3vw, 3rem);
+  background: hsla(0, 0%, 0%, 0.3);
+  backdrop-filter: blur(1rem);
 
-  padding: 1rem;
+  & div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4vw;
 
-  color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: clamp(2rem, 3vw, 3rem);
+    font-weight: 700;
 
-  @supports (background-clip: text) or (-webkit-background-clip: text) {
-    color: transparent;
-    background-clip: text;
-    -webkit-background-clip: text;
-    background-image: url(https://media.giphy.com/media/xULW8Fw2ZhznUptrYA/giphy.gif);
-    background-size: cover;
-    background-position: center;
+    padding: 1.5rem;
+
+    color: hsl(216, 57%, 59%);
+
+    // @supports (background-clip: text) or (-webkit-background-clip: text) {
+    //   color: transparent;
+    //   background-clip: text;
+    //   -webkit-background-clip: text;
+    //   background-image: url(https://media.giphy.com/media/xULW8Fw2ZhznUptrYA/giphy.gif);
+    //   background-size: cover;
+    //   background-position: center;
+    // }
   }
 }

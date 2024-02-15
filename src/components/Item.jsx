@@ -3,7 +3,8 @@ import { useIntersect } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import { useMemo, useRef } from 'react';
 
-export default function Item({ color, position, wireframe, children }) {
+export default function Item(props) {
+  const { color, position, wireframe, children } = props || {};
   const visible = useRef();
   const ref = useIntersect((isVisible) => (visible.current = isVisible));
 

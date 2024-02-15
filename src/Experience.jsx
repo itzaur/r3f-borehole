@@ -35,7 +35,7 @@ export default function Experience() {
         </Suspense>
       </Canvas>
 
-      <Leva collapsed />
+      <Leva collapsed hidden />
     </>
   );
 }
