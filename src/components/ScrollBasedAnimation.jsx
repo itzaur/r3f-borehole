@@ -11,6 +11,9 @@ export default function ScrollBasedAnimation() {
       pages={window.innerWidth < 768 ? 6.7 : 6.9}
       distance={0.5}
       damping={0.5}
+      style={{
+        scrollbarWidth: 'none',
+      }}
     >
       <Scroll>
         <Background

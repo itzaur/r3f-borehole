@@ -2,17 +2,18 @@ import * as THREE from 'three';
 import { useTexture } from '@react-three/drei';
 import { useFrame, useThree } from '@react-three/fiber';
 import { useMemo, useRef } from 'react';
+import { Box, Flex } from '@react-three/flex';
 import gsap from 'gsap';
 
 import fragmentShader from '../shaders/cards/fragmentShader.glsl';
 import vertexShader from '../shaders/cards/vertexShader.glsl';
-import { Box, Flex } from '@react-three/flex';
 
 const NewPlane = (props) => {
   const { texture, left = false } = props || {};
   const mesh = useRef();
   const plane = useRef();
   const { size, viewport } = useThree();
+  const prevMouse = new THREE.Vector2();
 
   const tex = useTexture(texture);
 
@@ -30,6 +31,8 @@ const NewPlane = (props) => {
         },
         uViewSize: { value: { x: 1, y: 1 } },
         uPosition: { value: new THREE.Vector2() },
+        uMouse: { value: new THREE.Vector2() },
+        uMouseSpeed: { value: 0 },
       },
       fragmentShader,
       vertexShader,
@@ -41,6 +44,13 @@ const NewPlane = (props) => {
     const time = state.clock.elapsedTime;
 
     shaderProps.uniforms.uTime.value = time;
+
+    const mouseSpeed = Math.sqrt(
+      (prevMouse.x - mesh.current.material.uniforms.uMouse.value.x) ** 2,
+      (prevMouse.y - mesh.current.material.uniforms.uMouse.value.y) ** 2
+    );
+
+    mesh.current.material.uniforms.uMouseSpeed.value = mouseSpeed;
   });
 
   const boxProps = {
@@ -81,6 +91,11 @@ const NewPlane = (props) => {
     });
   }
 
+  function onPointerMove(e) {
+    mesh.current.material.uniforms.uMouse.value.x = e.uv.x;
+    mesh.current.material.uniforms.uMouse.value.y = e.uv.y;
+  }
+
   return (
     <>
       <Flex
@@ -109,6 +124,7 @@ const NewPlane = (props) => {
               {...props}
               onPointerDown={onPointerDown}
               onPointerUp={onPointerUp}
+              onPointerMove={onPointerMove}
             >
               <planeGeometry args={[width, height, 32, 32]} ref={plane} />
               <shaderMaterial args={[shaderProps]} />
