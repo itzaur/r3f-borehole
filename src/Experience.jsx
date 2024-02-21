@@ -18,8 +18,8 @@ export default function Experience() {
       <Canvas flat shadows gl={{ alpha: false, antialias: true }}>
         <color attach='background' args={[color]} />
 
-        <directionalLight />
-        <ambientLight />
+        {/* <directionalLight intensity={1.5} ref={directionalLight} />
+        <ambientLight /> */}
 
         <Suspense fallback={null}>
           {/* <ScrollControls
@@ -35,7 +35,11 @@ export default function Experience() {
         </Suspense>
       </Canvas>
 
-      <Leva collapsed hidden />
+      <Leva
+
+      // collapsed
+      // hidden
+      />
     </>
   );
 }

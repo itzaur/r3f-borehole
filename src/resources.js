@@ -95,7 +95,7 @@ const source = {
       color: '#cccccc',
       textColor: '#ffffff',
       text: 'Пример текста',
-      image: '/images/4.jpg',
+      texture: '/images/4.jpg',
     },
     {
       depth: -3.99,

@@ -1,18 +1,16 @@
 import * as THREE from 'three';
-// import { Flex } from '@react-three/flex';
-import Text from './Text';
-import source from '../resources';
 import { useFrame, useLoader, useThree } from '@react-three/fiber';
+import { useMemo, useRef } from 'react';
+import { useAspect, useHelper, useScroll } from '@react-three/drei';
+import { Flex, Box } from '@react-three/flex';
+import source from '../resources';
+import Text from './Text';
 import Item from './Item';
 import NewPlane from './NewPlane';
-import { useAspect, useScroll } from '@react-three/drei';
-
-import { Flex, Box } from '@react-three/flex';
-
 import LayerCard from './LayerCard.jsx';
-
 import Cube from './Cube.jsx';
-import { useRef } from 'react';
+import RoundedCube from './RoundedCube.jsx';
+import { useControls } from 'leva';
 
 // import { Box } from '@react-three/drei';
 
@@ -29,7 +27,7 @@ export default function Objects() {
 
   const { viewport } = useThree();
 
-  const texture = useLoader(THREE.TextureLoader, source.depthbox[0].image);
+  const texture = useLoader(THREE.TextureLoader, source.depthbox[0].texture);
 
   const scroll = useScroll();
 
@@ -83,8 +81,30 @@ export default function Objects() {
     // document.querySelector('.scroll').textContent = scroll.offset;
   });
 
+  const directionalLight = useRef();
+  useHelper(directionalLight, THREE.DirectionalLightHelper, 1, 'red');
+
+  const options = useMemo(() => {
+    return {
+      x: { value: -3.9, min: -10, max: Math.PI * 4, step: 0.01 },
+      y: { value: -7.8, min: -20, max: Math.PI * 4, step: 0.01 },
+      z: { value: 5.06, min: -10, max: Math.PI * 4, step: 0.01 },
+      intensity: { value: 1.13, min: 0, max: 20, step: 0.01 },
+    };
+  }, []);
+
+  const dice = useControls('Dice', options);
+
   return (
     <>
+      <directionalLight
+        ref={directionalLight}
+        intensity={dice.intensity}
+        castShadow
+        position={[dice.x, dice.y, dice.z]}
+        color={0xffffff}
+      />
+      <ambientLight intensity={0.2} />
       <Text
         bold
         position-z={0}
@@ -107,18 +127,15 @@ export default function Objects() {
         left={source.images[0].id % 2}
       />
 
-      <Item color='orange' position={[width * 0.2, -height * 1.4, 0.5]}>
-        <boxGeometry args={[0.8, 0.8, 0.8]} />
-      </Item>
-      <Item color='blue' position={[width * 0.35, -height * 1.55 - 0.3, -0.5]}>
-        <boxGeometry args={[0.6, 0.6, 0.6]} />
-      </Item>
-      <Item
-        color='red'
-        position={[width * (isMobile ? -0.1 : 0.08), -height * 1.55 + 1, -0.4]}
-      >
-        <boxGeometry args={[0.4, 0.4, 0.4]} />
-      </Item>
+      <RoundedCube position={[width * 0.2, -height * 1.4, 0.5]} />
+      <RoundedCube
+        position={[width * 0.35, -height * 1.55 - 0.3, -0.4]}
+        scale={0.8}
+      />
+      <RoundedCube
+        position={[width * (isMobile ? -0.1 : 0.1), -height * 1.55 + 1, -0.5]}
+        scale={0.6}
+      />
 
       <NewPlane
         position={[0, -height * (isMobile ? 2.2 : 2.37), 0]}

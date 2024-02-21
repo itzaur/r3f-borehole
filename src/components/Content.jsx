@@ -17,7 +17,7 @@ export default function Content() {
   const group = useRef();
   const { viewport } = useThree();
   const [boxWidth, boxHeight] = useAspect(1920, 1920, 0.5);
-  const texture = useLoader(THREE.TextureLoader, source.depthbox[0].image);
+  const texture = useLoader(THREE.TextureLoader, source.depthbox[0].texture);
 
   const [activePlane, setActivePlane] = useState(null);
 
