@@ -9,7 +9,6 @@ export default function Text({
   ...props
 }) {
   const font = './font/DelaGothicOne-Regular.ttf';
-  // const reflow = useReflow();
 
   return (
     <TextPage

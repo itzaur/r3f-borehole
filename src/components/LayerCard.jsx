@@ -26,7 +26,7 @@ export default function LayerCard(props) {
     <>
       <mesh position={[boxWidth / 2, -boxHeight / 2, depth]}>
         <planeGeometry args={[boxWidth, boxHeight, 32, 32]} />
-        <meshLambertMaterial
+        <meshStandardMaterial
           ref={ref}
           color={color}
           map={map}

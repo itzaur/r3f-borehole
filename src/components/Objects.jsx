@@ -1,7 +1,15 @@
 import * as THREE from 'three';
 import { useFrame, useLoader, useThree } from '@react-three/fiber';
-import { useMemo, useRef } from 'react';
-import { useAspect, useHelper, useScroll } from '@react-three/drei';
+import { useEffect, useMemo, useRef } from 'react';
+import {
+  CameraControls,
+  Environment,
+  MeshReflectorMaterial,
+  RenderTexture,
+  useAspect,
+  useHelper,
+  useScroll,
+} from '@react-three/drei';
 import { Flex, Box } from '@react-three/flex';
 import source from '../resources';
 import Text from './Text';
@@ -12,10 +20,23 @@ import Cube from './Cube.jsx';
 import RoundedCube from './RoundedCube.jsx';
 import { useControls } from 'leva';
 import Pipes from './Pipes.jsx';
+import Video from './Video.jsx';
 
 // import { Box } from '@react-three/drei';
 
 export default function Objects() {
+  // const controls = useRef();
+
+  // const intro = async () => {
+  //   controls.current.dolly(-22);
+  //   controls.current.smoothTime = 1.6;
+  //   controls.current.dolly(22, true);
+  // };
+
+  // useEffect(() => {
+  //   intro();
+  // }, []);
+
   const isMobile = window.innerWidth < 768;
 
   const { width, height } = useThree((state) => state.viewport);
@@ -98,28 +119,52 @@ export default function Objects() {
 
   return (
     <>
-      <directionalLight
+      {/* <directionalLight
         ref={directionalLight}
         intensity={dice.intensity}
         castShadow
         position={[dice.x, dice.y, dice.z]}
         color={0xffffff}
-      />
-      <ambientLight intensity={0.2} />
+      /> */}
+      {/* <ambientLight intensity={0.2} /> */}
+      {/* <CameraControls ref={controls} /> */}
+
       <Text
         bold
+        position-y={0.3}
         position-z={0}
         anchorX='center'
         anchorY='middle'
-        fontSize={0.85 * fontScale}
-        lineHeight={1.8}
+        fontSize={isMobile ? 0.4 : 0.95 * fontScale}
+        lineHeight={1.3}
+        letterSpacing={0.01}
+        textAlign='center'
+        maxWidth={(width / 4) * 3}
+        curveRadius={25}
+      >
+        БУРЕНИЕ{isMobile ? '\n' : ' '}СКВАЖИН{isMobile ? '\n' : ' '}НА ВОДУ
+        <meshBasicMaterial color='white'>
+          <RenderTexture attach={'map'}>
+            <color attach='background' args={['#fff']} />
+            <Environment preset='sunset' />
+            <Video url='./video/720p.mp4' />
+          </RenderTexture>
+        </meshBasicMaterial>
+      </Text>
+      <Text
+        position-y={isMobile ? -0.8 : -1.3}
+        anchorX='center'
+        anchorY='middle'
+        font='./font/Arial.ttf'
+        fontSize={isMobile ? 0.2 : 0.35 * fontScale}
+        lineHeight={1.2}
         letterSpacing={0.01}
         textAlign='center'
         color='white'
         maxWidth={(width / 4) * 3}
-        curveRadius={25}
+        curveRadius={40}
       >
-        {source.content[0].text}
+        по Могилеву и Могилевской области
       </Text>
 
       <NewPlane
@@ -221,6 +266,27 @@ export default function Objects() {
           </Box>
         </Box>
       </Flex>
+
+      {/* <mesh position={[0, -1.5, -15]} rotation-x={-Math.PI / 2}>
+        <planeGeometry args={[100, 100, 100, 100]} />
+        <MeshReflectorMaterial
+          blur={[100, 100]}
+          resolution={2048}
+          mixBlur={1}
+          mixStrength={10}
+          roughness={1}
+          depthScale={1}
+          opacity={0.5}
+          transparent
+          minDepthThreshold={0.4}
+          maxDepthThreshold={1.4}
+          color='#222'
+          metalness={0.5}
+          // wireframe
+        />
+      </mesh> */}
+
+      <Environment preset='sunset' />
     </>
   );
 }
