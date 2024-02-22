@@ -40,4 +40,4 @@ export default function RoundedCube(props) {
   );
 }
 
-useGLTF.preload('.models/cube.glb');
+useGLTF.preload('./models/cube.glb');

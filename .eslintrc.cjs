@@ -24,6 +24,7 @@ module.exports = {
           'attach',
           'args',
           'position',
+          'rotation',
           'uniforms',
           'map',
           'toneMapped',

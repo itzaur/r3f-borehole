@@ -59,9 +59,16 @@ export default function Html() {
         '<0'
       )
       .to(
-        [subtitle.current, installmentInfo.current, outfitInfo.current],
+        [
+          subtitle.current,
+          installmentInfo.current,
+          outfitInfo.current,
+          pipesInfo.current,
+          repairInfo.current,
+          arrangementInfo.current,
+        ],
         {
-          y: `${scroll.offset * -400}`,
+          y: `${scroll.offset * -450}`,
         },
         '<0.2'
       )
@@ -90,14 +97,14 @@ export default function Html() {
       .to(
         outfit.current,
         {
-          opacity: scroll.range(isMobile ? 0.25 : 0.29, 0.08),
+          opacity: scroll.range(isMobile ? 0.25 : 0.29, 0.06),
         },
         '<0'
       )
       .to(
         outfitInfo.current,
         {
-          opacity: scroll.range(isMobile ? 0.27 : 0.31, 0.08),
+          opacity: scroll.range(isMobile ? 0.27 : 0.32, 0.1),
         },
         '<-0.3'
       )
@@ -111,7 +118,7 @@ export default function Html() {
       .to(
         pipesInfo.current,
         {
-          y: `${scroll.offset * -450}`,
+          // y: `${scroll.offset * -450}`,
           opacity: scroll.range(0.43, 0.06),
         },
         '<-0.5'
@@ -126,7 +133,7 @@ export default function Html() {
       .to(
         repairInfo.current,
         {
-          y: `${scroll.offset * -450}`,
+          // y: `${scroll.offset * -450}`,
           opacity: scroll.range(isMobile ? 0.5 : 0.54, 0.1),
         },
         '<-0.5'
@@ -141,7 +148,7 @@ export default function Html() {
       .to(
         arrangementInfo.current,
         {
-          y: `${scroll.offset * -450}`,
+          // y: `${scroll.offset * -450}`,
           opacity: scroll.range(isMobile ? 0.65 : 0.68, 0.1),
         },
         '<-0.5'
@@ -162,10 +169,10 @@ export default function Html() {
       }}
     >
       <section
-        className='text-block'
+        // className='text-block'
         style={{
           position: 'absolute',
-          top: '140vh',
+          top: '135vh',
           left: isMobile ? '0' : `${MARGIN_LEFT}vw`,
 
           paddingLeft: '2rem',
@@ -185,7 +192,7 @@ export default function Html() {
           style={{
             width: 'min(100%, 42ch)',
 
-            paddingTop: isMobile ? '0' : '4rem',
+            paddingTop: isMobile ? '0' : '2rem',
 
             fontSize: fontSizeText,
             lineHeight: 1.2,
@@ -277,7 +284,9 @@ export default function Html() {
 
           display: 'flex',
           flexDirection: 'column',
-          gap: isMobile ? '0' : '2rem',
+          justifyItems: 'flex-start',
+          justifySelf: 'flex-start',
+          alignItems: 'flex-start',
 
           paddingLeft: '2rem',
         }}
@@ -314,7 +323,6 @@ export default function Html() {
 
           display: 'flex',
           flexDirection: 'column',
-          gap: isMobile ? '0' : '2rem',
 
           paddingLeft: '2rem',
         }}
@@ -325,14 +333,16 @@ export default function Html() {
             fontFamily: 'DelaGothicOne, sans-serif',
             fontSize: fontSizeTitle,
             textTransform: 'uppercase',
-            textAlign: 'right',
           }}
         >
           Трубы
         </h2>
         <p
           ref={pipesInfo}
-          style={{ fontSize: fontSizeText, textAlign: 'right' }}
+          style={{
+            width: 'min(100%, 47ch)',
+            fontSize: fontSizeText,
+          }}
         >
           Трубы для обустройства скважин включают в себя обсадные трубы
           &lsquo;Хемкор&rsquo; из непластифицированного поливинилхлорида (НПВХ)
@@ -366,8 +376,6 @@ export default function Html() {
           style={{
             fontSize: fontSizeText,
             lineHeight: 1.2,
-
-            paddingTop: isMobile ? '0' : '2rem',
           }}
         >
           <p style={{ paddingBottom: '1rem', textTransform: 'uppercase' }}>
@@ -388,7 +396,6 @@ export default function Html() {
 
           display: 'flex',
           flexDirection: 'column',
-          gap: isMobile ? '0' : '2rem',
 
           paddingLeft: '2rem',
         }}
@@ -411,8 +418,6 @@ export default function Html() {
 
             fontSize: fontSizeText,
             lineHeight: 1.2,
-
-            paddingTop: isMobile ? '0' : '2rem',
           }}
         >
           <p style={{ paddingBottom: '1rem', textTransform: 'uppercase' }}>

@@ -5,12 +5,13 @@ import { useAspect, useHelper, useScroll } from '@react-three/drei';
 import { Flex, Box } from '@react-three/flex';
 import source from '../resources';
 import Text from './Text';
-import Item from './Item';
+// import Item from './Item';
 import NewPlane from './NewPlane';
 import LayerCard from './LayerCard.jsx';
 import Cube from './Cube.jsx';
 import RoundedCube from './RoundedCube.jsx';
 import { useControls } from 'leva';
+import Pipes from './Pipes.jsx';
 
 // import { Box } from '@react-three/drei';
 
@@ -86,9 +87,9 @@ export default function Objects() {
 
   const options = useMemo(() => {
     return {
-      x: { value: -3.9, min: -10, max: Math.PI * 4, step: 0.01 },
-      y: { value: -7.8, min: -20, max: Math.PI * 4, step: 0.01 },
-      z: { value: 5.06, min: -10, max: Math.PI * 4, step: 0.01 },
+      x: { value: -0.3, min: -10, max: Math.PI * 4, step: 0.01 },
+      y: { value: -20, min: -30, max: Math.PI * 4, step: 0.01 },
+      z: { value: 8.86, min: -10, max: Math.PI * 4, step: 0.01 },
       intensity: { value: 1.13, min: 0, max: 20, step: 0.01 },
     };
   }, []);
@@ -143,7 +144,7 @@ export default function Objects() {
         left={source.images[1].id % 2}
       />
 
-      <Item
+      {/* <Item
         color='orangered'
         position={[
           width * (isMobile ? -0.16 : -0.25),
@@ -153,7 +154,14 @@ export default function Objects() {
         wireframe={true}
       >
         <boxGeometry args={[1, 1, 1, 16, 16, 16]} />
-      </Item>
+      </Item> */}
+      <Pipes
+        position={[
+          width * (isMobile ? 0.1 : -0.2),
+          -height * (isMobile ? 2.95 : 3.05),
+          1,
+        ]}
+      />
 
       <NewPlane
         position={[0, -height * (isMobile ? 3.5 : 3.7), 0]}
