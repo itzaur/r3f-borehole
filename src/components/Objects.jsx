@@ -1,10 +1,8 @@
 import * as THREE from 'three';
 import { useFrame, useLoader, useThree } from '@react-three/fiber';
-import { useEffect, useMemo, useRef } from 'react';
+import { useMemo, useRef } from 'react';
 import {
-  CameraControls,
   Environment,
-  MeshReflectorMaterial,
   RenderTexture,
   useAspect,
   useHelper,
@@ -21,8 +19,11 @@ import RoundedCube from './RoundedCube.jsx';
 import { useControls } from 'leva';
 import Pipes from './Pipes.jsx';
 import Video from './Video.jsx';
+import Guarantee from './Guarantee.jsx';
 
 // import { Box } from '@react-three/drei';
+const bloomColor = new THREE.Color('#fff');
+bloomColor.multiplyScalar(1.5);
 
 export default function Objects() {
   // const controls = useRef();
@@ -129,21 +130,24 @@ export default function Objects() {
       {/* <ambientLight intensity={0.2} /> */}
       {/* <CameraControls ref={controls} /> */}
 
+      {/* <color args={['#000000']} attach='background' /> */}
+
       <Text
         bold
         position-y={0.3}
         position-z={0}
         anchorX='center'
         anchorY='middle'
-        fontSize={isMobile ? 0.4 : 0.95 * fontScale}
+        fontSize={isMobile ? 0.4 : 0.92 * fontScale}
         lineHeight={1.3}
         letterSpacing={0.01}
         textAlign='center'
-        maxWidth={(width / 4) * 3}
+        maxWidth={isMobile ? width * 2 : (width / 4) * 3}
         curveRadius={25}
       >
-        БУРЕНИЕ{isMobile ? '\n' : ' '}СКВАЖИН{isMobile ? '\n' : ' '}НА ВОДУ
-        <meshBasicMaterial color='white'>
+        БУРЕНИЕ{isMobile ? '\n' : '  '}СКВАЖИН{isMobile ? '\n' : '  '}НА
+        &nbsp;ВОДУ
+        <meshBasicMaterial color='white' toneMapped={false}>
           <RenderTexture attach={'map'}>
             <color attach='background' args={['#fff']} />
             <Environment preset='sunset' />
@@ -152,7 +156,7 @@ export default function Objects() {
         </meshBasicMaterial>
       </Text>
       <Text
-        position-y={isMobile ? -0.8 : -1.3}
+        position-y={isMobile ? -0.9 : -1.3}
         anchorX='center'
         anchorY='middle'
         font='./font/Arial.ttf'
@@ -171,6 +175,11 @@ export default function Objects() {
         position={[0, -height, 0]}
         texture={source.images[0].image}
         left={source.images[0].id % 2}
+      />
+
+      <Guarantee
+        scale={0.06}
+        position={[isMobile ? -0.7 : width / 5, isMobile ? -2 : -6.5, 0]}
       />
 
       <RoundedCube position={[width * 0.2, -height * 1.4, 0.5]} />
@@ -239,8 +248,6 @@ export default function Objects() {
           // dir='row'
           width='auto'
           height='auto'
-          // align='center'
-          // justify='flex-start'
           marginTop={isMobile ? 0 : 1.5}
           // scale={isMobile ? 1.2 : 1.0}
           // flexGrow={1}
@@ -260,6 +267,10 @@ export default function Objects() {
               position={[
                 isMobile ? viewport.width / 2 : boxWidth / 2,
                 isMobile ? -viewport.height / 2 - 2.3 : -boxHeight / 2 - 1.8,
+                // viewport.width / 2,
+                // -viewport.height / 2,
+                // boxWidth / 2,
+                // -boxHeight / 2,
                 source.depthbox[1].depth,
               ]}
             />

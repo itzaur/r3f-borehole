@@ -16,7 +16,7 @@ export default function Pipes(props) {
   useFrame((state, delta) => {
     const elapsedTime = state.clock.elapsedTime;
 
-    pipes.current.rotation.y = elapsedTime * yRandomFactor;
+    pipes.current.rotation.y = elapsedTime * yRandomFactor * 1.2;
 
     const scale = THREE.MathUtils.damp(
       pipes.current.scale.y,

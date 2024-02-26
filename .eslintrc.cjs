@@ -35,6 +35,7 @@ module.exports = {
           'receiveShadow',
           'geometry',
           'material',
+          'material-color',
           'intensity',
         ],
       },
