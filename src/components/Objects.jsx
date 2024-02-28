@@ -6,7 +6,9 @@ import {
   RenderTexture,
   useAspect,
   useHelper,
+  useIntersect,
   useScroll,
+  useTexture,
 } from '@react-three/drei';
 import { Flex, Box } from '@react-three/flex';
 import source from '../resources';
@@ -14,31 +16,21 @@ import Text from './Text';
 // import Item from './Item';
 import NewPlane from './NewPlane';
 import LayerCard from './LayerCard.jsx';
-import Cube from './Cube.jsx';
+import Cube from './DepthPlane.jsx';
 import RoundedCube from './RoundedCube.jsx';
 import { useControls } from 'leva';
 import Pipes from './Pipes.jsx';
 import Video from './Video.jsx';
 import Guarantee from './Guarantee.jsx';
+import Slider from './Mesh.jsx';
 
 // import { Box } from '@react-three/drei';
 const bloomColor = new THREE.Color('#fff');
 bloomColor.multiplyScalar(1.5);
 
 export default function Objects() {
-  // const controls = useRef();
-
-  // const intro = async () => {
-  //   controls.current.dolly(-22);
-  //   controls.current.smoothTime = 1.6;
-  //   controls.current.dolly(22, true);
-  // };
-
-  // useEffect(() => {
-  //   intro();
-  // }, []);
-
   const isMobile = window.innerWidth < 768;
+  const MARGIN = 0.1;
 
   const { width, height } = useThree((state) => state.viewport);
 
@@ -46,11 +38,14 @@ export default function Objects() {
 
   const fontScale = Math.min(1, width / 16);
 
-  const layerCardRef = useRef();
-
-  const { viewport } = useThree();
-
   const texture = useLoader(THREE.TextureLoader, source.depthbox[0].texture);
+
+  const depthboxTextures = useLoader(
+    THREE.TextureLoader,
+    source.content[1].images
+  );
+  const depthboxPlaneWidth = isMobile ? boxWidth / 1.8 : boxWidth / 3;
+  const depthboxPlaneHeight = isMobile ? boxWidth / 3 - 0.2 : boxWidth / 2.5;
 
   const scroll = useScroll();
 
@@ -60,6 +55,12 @@ export default function Objects() {
   const camLookAtLerped = new THREE.Vector3(0, 0, 0);
 
   const lastScroll = useRef(0);
+
+  const layerCardRef = useRef();
+  // const visible = useRef();
+  // const layerCardRef = useIntersect(
+  //   (isVisible) => (visible.current = isVisible)
+  // );
 
   useFrame((state, delta) => {
     let friction = 1;
@@ -75,13 +76,13 @@ export default function Objects() {
 
     let theta = 65.5;
 
-    const distance = layerCardRef.current.position.distanceTo(
-      state.camera.position
-    );
+    // const distance = layerCardRef.current.position.distanceTo(
+    //   state.camera.position
+    // );
 
-    if (distance < 19) {
-      friction = Math.max(distance / 19, 0.1);
-    }
+    // if (distance < 19) {
+    //   friction = Math.max(distance / 19, 0.1);
+    // }
 
     // Calculate lerped scroll offset
     let lerpedScrollOffset = THREE.MathUtils.lerp(
@@ -104,19 +105,19 @@ export default function Objects() {
     // document.querySelector('.scroll').textContent = scroll.offset;
   });
 
-  const directionalLight = useRef();
-  useHelper(directionalLight, THREE.DirectionalLightHelper, 1, 'red');
+  // const directionalLight = useRef();
+  // useHelper(directionalLight, THREE.DirectionalLightHelper, 1, 'red');
 
-  const options = useMemo(() => {
-    return {
-      x: { value: -0.3, min: -10, max: Math.PI * 4, step: 0.01 },
-      y: { value: -20, min: -30, max: Math.PI * 4, step: 0.01 },
-      z: { value: 8.86, min: -10, max: Math.PI * 4, step: 0.01 },
-      intensity: { value: 1.13, min: 0, max: 20, step: 0.01 },
-    };
-  }, []);
+  // const options = useMemo(() => {
+  //   return {
+  //     x: { value: -0.3, min: -10, max: Math.PI * 4, step: 0.01 },
+  //     y: { value: -20, min: -30, max: Math.PI * 4, step: 0.01 },
+  //     z: { value: 8.86, min: -10, max: Math.PI * 4, step: 0.01 },
+  //     intensity: { value: 1.13, min: 0, max: 20, step: 0.01 },
+  //   };
+  // }, []);
 
-  const dice = useControls('Dice', options);
+  // const dice = useControls('Dice', options);
 
   return (
     <>
@@ -134,7 +135,7 @@ export default function Objects() {
 
       <Text
         bold
-        position-y={0.3}
+        position-y={isMobile ? 1.5 : 0.3}
         position-z={0}
         anchorX='center'
         anchorY='middle'
@@ -156,7 +157,7 @@ export default function Objects() {
         </meshBasicMaterial>
       </Text>
       <Text
-        position-y={isMobile ? -0.9 : -1.3}
+        position-y={isMobile ? 0.2 : -1.3}
         anchorX='center'
         anchorY='middle'
         font='./font/Arial.ttf'
@@ -172,19 +173,21 @@ export default function Objects() {
       </Text>
 
       <NewPlane
-        position={[0, -height, 0]}
+        position={[0, -height + (isMobile ? 1.2 : 0), 0]}
         texture={source.images[0].image}
         left={source.images[0].id % 2}
       />
 
       <Guarantee
         scale={0.06}
-        position={[isMobile ? -0.7 : width / 5, isMobile ? -2 : -6.5, 0]}
+        position={[isMobile ? -0.7 : width / 5, isMobile ? -0.7 : -6.5, 0]}
       />
 
-      <RoundedCube position={[width * 0.2, -height * 1.4, 0.5]} />
       <RoundedCube
-        position={[width * 0.35, -height * 1.55 - 0.3, -0.4]}
+        position={[width * 0.2, -height * (isMobile ? 1.3 : 1.4), 0.5]}
+      />
+      <RoundedCube
+        position={[width * 0.35, -height * 1.535, -0.4]}
         scale={0.8}
       />
       <RoundedCube
@@ -230,50 +233,84 @@ export default function Objects() {
       />
 
       <Flex
-        dir='column'
+        dir='row'
         // justify={left ? 'flex-end' : 'flex-start'}
         position={[
-          -viewport.width,
-          -viewport.height * (isMobile ? 4.4 : 4.5),
+          isMobile ? -width / 2 : -boxWidth / 2,
+          -height * (isMobile ? 4.65 : 4.85),
           0,
         ]}
-        size={[viewport.width, viewport.height, 0]}
-        align='flex-end'
-        // justify='flex-start'
-        flexGrow={1}
+        size={[width, height, 0]}
+        // align='flex-end'
+        // justify='center'
+        // flexGrow={1}
+        // justify='center'
+        // align='center'
+        // centerAnchor
+        // width='100%'
+        // height='100%'
       >
         <Box
           ref={layerCardRef}
-          centerAnchor
-          // dir='row'
-          width='auto'
-          height='auto'
-          marginTop={isMobile ? 0 : 1.5}
+          // centerAnchor
+          dir='row'
+          // width='auto'
+          // height='auto'
+          width='100%'
+          height='100%'
+          // marginTop={isMobile ? 0 : 0}
           // scale={isMobile ? 1.2 : 1.0}
           // flexGrow={1}
           // flexBasis='100%'
           // flexShrink={1}
+          justify='flex-start'
+          align='center'
         >
-          <Box>
+          <Box
+            // width='100%'
+            // height='100%'
+            // width='auto'
+            // height='auto'
+            // centerAnchor
+            // justify='center'
+            // align='center'
+            wrap='wrap'
+            dir='row'
+            // marginTop={isMobile ? 0.0 : 0}
+          >
             <LayerCard
               {...source.depthbox[0]}
-              text={source.depthbox[1].text}
-              boxWidth={isMobile ? viewport.width : boxWidth}
-              boxHeight={isMobile ? viewport.height : boxHeight}
+              title={source.depthbox[1].title}
+              subtitle={source.depthbox[1].subtitle}
+              boxWidth={isMobile ? width : boxWidth}
+              boxHeight={isMobile ? height : boxHeight}
               map={texture}
               textScaleFactor={fontScale}
             />
-            <Cube
-              position={[
-                isMobile ? viewport.width / 2 : boxWidth / 2,
-                isMobile ? -viewport.height / 2 - 2.3 : -boxHeight / 2 - 1.8,
-                // viewport.width / 2,
-                // -viewport.height / 2,
-                // boxWidth / 2,
-                // -boxHeight / 2,
-                source.depthbox[1].depth,
-              ]}
-            />
+
+            {depthboxTextures.map((item, i) => (
+              <Box
+                key={i}
+                margin={MARGIN}
+                centerAnchor
+                // paddingLeft={isMobile ? 0 : 0}
+              >
+                <Cube
+                  position={[
+                    isMobile
+                      ? width / 2 - depthboxPlaneWidth / 2 - MARGIN
+                      : -(width - boxWidth) / 2 -
+                        MARGIN +
+                        (width - (depthboxPlaneWidth * 3 + 4 * MARGIN)) / 2,
+                    -boxHeight / 2 - (isMobile ? 2.1 : 0.8),
+                    source.depthbox[1].depth,
+                  ]}
+                  planeWidth={depthboxPlaneWidth}
+                  planeHeight={depthboxPlaneHeight}
+                  texture={item}
+                />
+              </Box>
+            ))}
           </Box>
         </Box>
       </Flex>
@@ -296,6 +333,7 @@ export default function Objects() {
           // wireframe
         />
       </mesh> */}
+      {/* <Slider position={[-width / 2 + 5, -height / 2 - 37, 0]} /> */}
 
       <Environment preset='sunset' />
     </>

@@ -1,15 +1,18 @@
 import * as THREE from 'three';
 import { useRef } from 'react';
-import { useFrame } from '@react-three/fiber';
-import { Shadow, useScroll } from '@react-three/drei';
+import { useFrame, useLoader, useThree } from '@react-three/fiber';
+import { Shadow, useScroll, useTexture } from '@react-three/drei';
+
 // import vertexShader from '../../src/shaders/vertexShader.glsl';
 // import fragmentShader from '../../src/shaders/fragmentShader.glsl';
 // import { useControls } from 'leva';
-import source from '../resources.js';
 
-export default function Cube(props) {
-  const { size } = props || {};
+export default function DepthPlane(props) {
+  const { texture, position, planeWidth, planeHeight, depth } = props || {};
   const mesh = useRef();
+  const { viewport, size } = useThree();
+
+  // console.log(viewport);
   // const material = useRef();
 
   // useFrame((state) => {
@@ -56,44 +59,30 @@ export default function Cube(props) {
   const scroll = useScroll();
 
   useFrame(({ clock }) => {
-    const t = (1 + Math.sin(clock.getElapsedTime() * 1.5)) / 2;
-    mesh.current.position.y = t / 3;
-    shadow.current.scale.y = shadow.current.scale.z = 1 + t;
-    shadow.current.scale.x = (1 + t) * 1.25;
-    mesh.current.rotation.x = mesh.current.rotation.z += 0.005;
-    mesh.current.position.x = THREE.MathUtils.lerp(
-      mesh.current.position.x,
-      source.mouse[0] / 2,
-      0.05
-    );
-    mesh.current.position.z = THREE.MathUtils.lerp(
-      mesh.current.position.z,
-      source.mouse[1] / 4,
-      0.03
-    );
-
+    // const t = (1 + Math.sin(clock.getElapsedTime() * 1.5)) / 2;
+    // mesh.current.position.y = t / 3;
+    // shadow.current.scale.y = shadow.current.scale.z = 1 + t;
+    // shadow.current.scale.x = (1 + t) * 1.25;
+    // mesh.current.rotation.x = mesh.current.rotation.z += 0.005;
+    // mesh.current.position.x = THREE.MathUtils.lerp(
+    //   mesh.current.position.x,
+    //   source.mouse[0] / 2,
+    //   0.05
+    // );
+    // mesh.current.position.z = THREE.MathUtils.lerp(
+    //   mesh.current.position.z,
+    //   source.mouse[1] / 4,
+    //   0.03
+    // );
     mesh.current.material.opacity = scroll.range(0.95, 0.02);
   });
 
   return (
-    <group {...props} dispose={null}>
-      <group ref={group}>
-        <mesh ref={mesh}>
-          <boxGeometry args={size} />
-          <meshBasicMaterial attach='material' transparent />
-        </mesh>
-        {/* <mesh>
-          <sphereGeometry />
-          <meshStandardMaterial />
-        </mesh> */}
-
-        <Shadow
-          ref={shadow}
-          opacity={0.3}
-          rotation-x={-Math.PI / 2}
-          position={[0, -1.51, 0]}
-        />
-      </group>
-    </group>
+    <>
+      <mesh ref={mesh} dispose={null} {...props}>
+        <planeGeometry args={[planeWidth, planeHeight, 20, 20]} />
+        <meshStandardMaterial attach='material' transparent map={texture} />
+      </mesh>
+    </>
   );
 }

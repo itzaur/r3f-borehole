@@ -8,7 +8,8 @@ export default function LayerCard(props) {
     depth,
     boxWidth,
     boxHeight,
-    text,
+    title,
+    subtitle,
     textColor,
     color,
     map,
@@ -38,16 +39,33 @@ export default function LayerCard(props) {
       </mesh>
       <Text
         bold
-        position={[boxWidth / 2, -boxHeight / 2 + 0.4, depth + 1.5]}
-        maxWidth={(viewport.width / 2.5) * 1}
-        anchorX='center'
+        position={[boxWidth / 4, -boxHeight / 3.5, depth + 1.5]}
+        maxWidth={boxWidth / 2}
+        anchorX='left'
+        anchorY='middle'
+        fontSize={(window.innerWidth < 768 ? 1 : 0.5) * textScaleFactor}
+        lineHeight={1}
+        letterSpacing={0.01}
+        color={textColor}
+      >
+        {title}
+      </Text>
+      <Text
+        position={[
+          boxWidth / 4,
+          -boxHeight / 2 + (window.innerWidth < 768 ? 0.7 : 0.4),
+          depth + 1.5,
+        ]}
+        maxWidth={boxWidth / 2}
+        anchorX='left'
         anchorY='middle'
         fontSize={(window.innerWidth < 768 ? 0.6 : 0.4) * textScaleFactor}
         lineHeight={1}
-        letterSpacing={-0.05}
+        letterSpacing={0.01}
         color={textColor}
+        textAlign='left'
       >
-        {text}
+        {subtitle}
       </Text>
     </>
   );

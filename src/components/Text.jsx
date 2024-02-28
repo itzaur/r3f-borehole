@@ -8,7 +8,7 @@ export default function Text({
   textAlign = 'left',
   ...props
 }) {
-  const font = './font/DelaGothicOne-Regular.ttf';
+  const font = bold ? './font/DelaGothicOne-Regular.ttf' : './font/Arial.ttf';
 
   return (
     <TextPage

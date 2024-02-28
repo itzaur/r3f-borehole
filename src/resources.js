@@ -16,7 +16,12 @@ const source = {
       id: 1,
       tag: '2',
       text: 'New Text',
-      images: ['./images/2.jpg', './images/3.jpg', './images/4.jpg'],
+      images: [
+        './images/2.jpg',
+        './images/3.jpg',
+        './images/4.jpg',
+        // './images/2.jpg',
+      ],
     },
     { id: 2, tag: '1', text: 'Some Text', images: ['./images/1.jpg'] },
   ],
@@ -100,7 +105,8 @@ const source = {
     {
       depth: -3.99,
       textColor: '#272727',
-      text: 'Связаться с нами',
+      title: 'ПРИМЕРЫ',
+      subtitle: 'работ по результатам бурения и обустройства скважины',
       image: '/images/2.jpg',
     },
   ],

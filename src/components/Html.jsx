@@ -47,7 +47,7 @@ export default function Html() {
       .to(
         title.current,
         {
-          opacity: scroll.range(0.07, 0.1),
+          opacity: scroll.range(isMobile ? 0.02 : 0.07, 0.1),
         },
         '<0'
       )
@@ -75,7 +75,7 @@ export default function Html() {
       .to(
         subtitle.current,
         {
-          opacity: scroll.range(0.08, 0.08),
+          opacity: scroll.range(isMobile ? 0.03 : 0.08, 0.08),
         },
         '<0'
       )
@@ -172,7 +172,7 @@ export default function Html() {
         // className='text-block'
         style={{
           position: 'absolute',
-          top: '135vh',
+          top: isMobile ? '115vh' : '135vh',
           left: isMobile ? '0' : `${MARGIN_LEFT}vw`,
 
           paddingLeft: '2rem',
@@ -192,7 +192,7 @@ export default function Html() {
           style={{
             width: 'min(100%, 42ch)',
 
-            paddingTop: isMobile ? '0' : '2rem',
+            paddingTop: isMobile ? '1.5rem' : '2rem',
 
             fontSize: fontSizeText,
             lineHeight: 1.2,
