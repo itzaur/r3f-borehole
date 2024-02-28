@@ -1,16 +1,18 @@
 import * as THREE from 'three';
-import { useRef } from 'react';
-import { useFrame, useLoader, useThree } from '@react-three/fiber';
-import { Shadow, useScroll, useTexture } from '@react-three/drei';
+import { useMemo, useRef } from 'react';
+import { useFrame } from '@react-three/fiber';
+import { useScroll, useTexture } from '@react-three/drei';
+import { useState } from 'react';
 
-// import vertexShader from '../../src/shaders/vertexShader.glsl';
-// import fragmentShader from '../../src/shaders/fragmentShader.glsl';
+import depthVertexShader from '../../src/shaders/depthCards/depthVertexShader.glsl';
+import depthFragmentShader from '../../src/shaders/depthCards/depthFragmentShader.glsl';
 // import { useControls } from 'leva';
 
 export default function DepthPlane(props) {
-  const { texture, position, planeWidth, planeHeight, depth } = props || {};
+  const { texture, texture2, planeWidth, planeHeight } = props || {};
   const mesh = useRef();
-  const { viewport, size } = useThree();
+  // const { viewport, size, camera } = useThree();
+  const [hovered, setHover] = useState(false);
 
   // console.log(viewport);
   // const material = useRef();
@@ -40,23 +42,36 @@ export default function DepthPlane(props) {
   //   //   step: 0.1,
   //   // },
   // });
+  const ref = useRef();
 
-  // const shaderProps = useMemo(
-  //   () => ({
-  //     uniforms: {
-  //       uTime: { value: 0 },
-  //       uColor: { value: new THREE.Color(color) },
-  //     },
-  //     fragmentShader,
-  //     vertexShader,
-  //     wireframe: wireframe,
-  //   }),
-  //   [color, wireframe]
-  // );
+  const dispTexture = useTexture('./images/disp.png');
 
-  const group = useRef();
-  const shadow = useRef();
+  const shaderProps = useMemo(
+    () => ({
+      uniforms: {
+        uTime: { value: 0 },
+        uTexture1: { value: texture },
+        uTexture2: { value: texture2 },
+        uDispTexture: { value: dispTexture },
+        uDispFactor: { value: 0 },
+        uOpacity: { value: 0 },
+        uEffectFactor: { value: 1.2 },
+        uScale: { value: new THREE.Vector2(1, 1) },
+        uResolution: { value: new THREE.Vector2(1, 1) },
+      },
+      fragmentShader: depthFragmentShader,
+      vertexShader: depthVertexShader,
+    }),
+    [dispTexture, texture, texture2]
+  );
+
+  // const group = useRef();
+  // const shadow = useRef();
   const scroll = useScroll();
+  const imageAspect = texture.source.data.width / texture.source.data.height;
+  const viewportAspect = planeWidth / planeHeight;
+
+  const shaderScale = shaderProps.uniforms.uScale.value;
 
   useFrame(({ clock }) => {
     // const t = (1 + Math.sin(clock.getElapsedTime() * 1.5)) / 2;
@@ -74,14 +89,39 @@ export default function DepthPlane(props) {
     //   source.mouse[1] / 4,
     //   0.03
     // );
-    mesh.current.material.opacity = scroll.range(0.95, 0.02);
+    // mesh.current.material.opacity = scroll.range(0.95, 0.02);
+    mesh.current.material.uniforms.uOpacity.value = scroll.range(0.95, 0.05);
+
+    if (imageAspect > viewportAspect) {
+      shaderScale.set(imageAspect / viewportAspect, 1);
+    } else {
+      shaderScale.set(1, viewportAspect / imageAspect);
+    }
+
+    ref.current.uniforms.uDispFactor.value = THREE.MathUtils.lerp(
+      ref.current.uniforms.uDispFactor.value,
+      hovered ? 1 : 0,
+      0.075
+    );
   });
 
   return (
     <>
-      <mesh ref={mesh} dispose={null} {...props}>
+      <mesh
+        ref={mesh}
+        dispose={null}
+        {...props}
+        onPointerOver={() => setHover(true)}
+        onPointerOut={() => setHover(false)}
+      >
         <planeGeometry args={[planeWidth, planeHeight, 20, 20]} />
-        <meshStandardMaterial attach='material' transparent map={texture} />
+        <shaderMaterial
+          attach='material'
+          ref={ref}
+          {...shaderProps}
+          toneMapped={false}
+          transparent
+        />
       </mesh>
     </>
   );

@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { useThree, useFrame } from '@react-three/fiber';
+import { useFrame } from '@react-three/fiber';
 import { useScroll } from '@react-three/drei';
 import Text from './Text';
 
@@ -17,10 +17,9 @@ export default function LayerCard(props) {
   } = props || {};
   const scroll = useScroll();
   const ref = useRef();
-  const { viewport } = useThree();
 
   useFrame(() => {
-    ref.current.opacity = 1 - scroll.range(0.9, 0.12);
+    ref.current.opacity = 1 - scroll.range(0.92, 0.2);
   });
 
   return (
@@ -33,17 +32,17 @@ export default function LayerCard(props) {
           map={map}
           toneMapped={false}
           transparent
-          opacity={1}
+          // opacity={1}
           // wireframe
         />
       </mesh>
       <Text
         bold
-        position={[boxWidth / 4, -boxHeight / 3.5, depth + 1.5]}
+        position={[boxWidth / 4, -boxHeight / 3, depth + 1.5]}
         maxWidth={boxWidth / 2}
         anchorX='left'
         anchorY='middle'
-        fontSize={(window.innerWidth < 768 ? 1 : 0.5) * textScaleFactor}
+        fontSize={(window.innerWidth < 768 ? 0.8 : 0.5) * textScaleFactor}
         lineHeight={1}
         letterSpacing={0.01}
         color={textColor}
@@ -53,7 +52,7 @@ export default function LayerCard(props) {
       <Text
         position={[
           boxWidth / 4,
-          -boxHeight / 2 + (window.innerWidth < 768 ? 0.7 : 0.4),
+          -boxHeight / 2 + (window.innerWidth < 768 ? 0.1 : 0),
           depth + 1.5,
         ]}
         maxWidth={boxWidth / 2}

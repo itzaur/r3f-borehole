@@ -1,38 +1,30 @@
 import * as THREE from 'three';
 import { useFrame, useLoader, useThree } from '@react-three/fiber';
-import { useMemo, useRef } from 'react';
+import { useRef } from 'react';
 import {
   Environment,
   RenderTexture,
   useAspect,
-  useHelper,
-  useIntersect,
   useScroll,
-  useTexture,
 } from '@react-three/drei';
 import { Flex, Box } from '@react-three/flex';
 import source from '../resources';
 import Text from './Text';
-// import Item from './Item';
 import NewPlane from './NewPlane';
 import LayerCard from './LayerCard.jsx';
-import Cube from './DepthPlane.jsx';
+import DepthPlane from './DepthPlane.jsx';
 import RoundedCube from './RoundedCube.jsx';
-import { useControls } from 'leva';
 import Pipes from './Pipes.jsx';
 import Video from './Video.jsx';
 import Guarantee from './Guarantee.jsx';
-import Slider from './Mesh.jsx';
 
-// import { Box } from '@react-three/drei';
 const bloomColor = new THREE.Color('#fff');
 bloomColor.multiplyScalar(1.5);
 
 export default function Objects() {
+  const { width, height } = useThree((state) => state.viewport);
   const isMobile = window.innerWidth < 768;
   const MARGIN = 0.1;
-
-  const { width, height } = useThree((state) => state.viewport);
 
   const [boxWidth, boxHeight] = useAspect(1920, 1920, 0.5);
 
@@ -44,7 +36,11 @@ export default function Objects() {
     THREE.TextureLoader,
     source.content[1].images
   );
-  const depthboxPlaneWidth = isMobile ? boxWidth / 1.8 : boxWidth / 3;
+  const depthboxUnderTextures = useLoader(
+    THREE.TextureLoader,
+    source.content[1].underImages
+  );
+  const depthboxPlaneWidth = isMobile ? boxWidth / 2 : boxWidth / 3;
   const depthboxPlaneHeight = isMobile ? boxWidth / 3 - 0.2 : boxWidth / 2.5;
 
   const scroll = useScroll();
@@ -57,10 +53,6 @@ export default function Objects() {
   const lastScroll = useRef(0);
 
   const layerCardRef = useRef();
-  // const visible = useRef();
-  // const layerCardRef = useIntersect(
-  //   (isVisible) => (visible.current = isVisible)
-  // );
 
   useFrame((state, delta) => {
     let friction = 1;
@@ -167,7 +159,7 @@ export default function Objects() {
         textAlign='center'
         color='white'
         maxWidth={(width / 4) * 3}
-        curveRadius={40}
+        curveRadius={30}
       >
         по Могилеву и Могилевской области
       </Text>
@@ -283,7 +275,7 @@ export default function Objects() {
               title={source.depthbox[1].title}
               subtitle={source.depthbox[1].subtitle}
               boxWidth={isMobile ? width : boxWidth}
-              boxHeight={isMobile ? height : boxHeight}
+              boxHeight={boxHeight}
               map={texture}
               textScaleFactor={fontScale}
             />
@@ -295,19 +287,23 @@ export default function Objects() {
                 centerAnchor
                 // paddingLeft={isMobile ? 0 : 0}
               >
-                <Cube
+                <DepthPlane
                   position={[
                     isMobile
                       ? width / 2 - depthboxPlaneWidth / 2 - MARGIN
                       : -(width - boxWidth) / 2 -
                         MARGIN +
                         (width - (depthboxPlaneWidth * 3 + 4 * MARGIN)) / 2,
-                    -boxHeight / 2 - (isMobile ? 2.1 : 0.8),
+                    -boxHeight / 2 -
+                      (isMobile
+                        ? 0.45
+                        : source.depthbox[1].koef / width / height),
                     source.depthbox[1].depth,
                   ]}
                   planeWidth={depthboxPlaneWidth}
                   planeHeight={depthboxPlaneHeight}
                   texture={item}
+                  texture2={depthboxUnderTextures[i]}
                 />
               </Box>
             ))}

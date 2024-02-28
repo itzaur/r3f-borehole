@@ -2,7 +2,6 @@ import { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { useScroll } from '@react-three/drei';
 import gsap from 'gsap';
-import source from '../resources';
 
 export default function Html() {
   const title = useRef();
@@ -185,7 +184,7 @@ export default function Html() {
             textTransform: 'uppercase',
           }}
         >
-          {source.images[0].tag}
+          Договор
         </h1>
         <div
           ref={subtitle}

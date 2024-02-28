@@ -8,7 +8,7 @@ export default function ScrollBasedAnimation() {
   const { viewport } = useThree();
   return (
     <ScrollControls
-      pages={window.innerWidth < 768 ? 6.7 : 6.9}
+      pages={window.innerWidth < 768 ? 6.45 : 7}
       distance={0.5}
       damping={0.5}
       style={{
