@@ -1,47 +1,47 @@
 import * as THREE from 'three';
-import { useFrame, useLoader, useThree } from '@react-three/fiber';
+import {
+  useFrame,
+  // useLoader,
+  useThree,
+} from '@react-three/fiber';
 import { useRef } from 'react';
 import {
   Environment,
   RenderTexture,
-  useAspect,
+  // useAspect,
   useScroll,
 } from '@react-three/drei';
-import { Flex, Box } from '@react-three/flex';
+
 import source from '../resources';
 import Text from './Text';
-import NewPlane from './NewPlane';
-import LayerCard from './LayerCard.jsx';
-import DepthPlane from './DepthPlane.jsx';
+import Plane from './Plane.jsx';
 import RoundedCube from './RoundedCube.jsx';
 import Pipes from './Pipes.jsx';
 import Video from './Video.jsx';
 import Guarantee from './Guarantee.jsx';
-
-const bloomColor = new THREE.Color('#fff');
-bloomColor.multiplyScalar(1.5);
+import LayerCard from './LayerCard.jsx';
 
 export default function Objects() {
   const { width, height } = useThree((state) => state.viewport);
   const isMobile = window.innerWidth < 768;
-  const MARGIN = 0.1;
+  // const MARGIN = 0.1;
 
-  const [boxWidth, boxHeight] = useAspect(1920, 1920, 0.5);
+  // const [boxWidth, boxHeight] = useAspect(1920, 1920, 0.5);
 
   const fontScale = Math.min(1, width / 16);
 
-  const texture = useLoader(THREE.TextureLoader, source.depthbox[0].texture);
+  // const texture = useLoader(THREE.TextureLoader, source.depthbox[0].texture);
 
-  const depthboxTextures = useLoader(
-    THREE.TextureLoader,
-    source.content[1].images
-  );
-  const depthboxUnderTextures = useLoader(
-    THREE.TextureLoader,
-    source.content[1].underImages
-  );
-  const depthboxPlaneWidth = isMobile ? boxWidth / 2 : boxWidth / 3;
-  const depthboxPlaneHeight = isMobile ? boxWidth / 3 - 0.2 : boxWidth / 2.5;
+  // const depthboxTextures = useLoader(
+  //   THREE.TextureLoader,
+  //   source.content[1].images
+  // );
+  // const depthboxUnderTextures = useLoader(
+  //   THREE.TextureLoader,
+  //   source.content[1].underImages
+  // );
+  // const depthboxPlaneWidth = isMobile ? boxWidth / 2 : boxWidth / 3;
+  // const depthboxPlaneHeight = isMobile ? boxHeight / 3 - 0.2 : boxHeight / 2.5;
 
   const scroll = useScroll();
 
@@ -52,7 +52,7 @@ export default function Objects() {
 
   const lastScroll = useRef(0);
 
-  const layerCardRef = useRef();
+  // const layerCardRef = useRef();
 
   useFrame((state, delta) => {
     let friction = 1;
@@ -127,10 +127,10 @@ export default function Objects() {
 
       <Text
         bold
-        position-y={isMobile ? 1.5 : 0.3}
+        position-y={isMobile ? 0.5 : -0.8}
         position-z={0}
         anchorX='center'
-        anchorY='middle'
+        anchorY='bottom'
         fontSize={isMobile ? 0.4 : 0.92 * fontScale}
         lineHeight={1.3}
         letterSpacing={0.01}
@@ -149,9 +149,9 @@ export default function Objects() {
         </meshBasicMaterial>
       </Text>
       <Text
-        position-y={isMobile ? 0.2 : -1.3}
+        position-y={isMobile ? -0.7 : -2}
         anchorX='center'
-        anchorY='middle'
+        anchorY={-1}
         font='./font/Arial.ttf'
         fontSize={isMobile ? 0.2 : 0.35 * fontScale}
         lineHeight={1.2}
@@ -164,7 +164,7 @@ export default function Objects() {
         по Могилеву и Могилевской области
       </Text>
 
-      <NewPlane
+      <Plane
         position={[0, -height + (isMobile ? 1.2 : 0), 0]}
         texture={source.images[0].image}
         left={source.images[0].id % 2}
@@ -172,7 +172,7 @@ export default function Objects() {
 
       <Guarantee
         scale={0.06}
-        position={[isMobile ? -0.7 : width / 5, isMobile ? -0.7 : -6.5, 0]}
+        position={[isMobile ? -0.7 : width / 5, isMobile ? -0.8 : -6.5, 0]}
       />
 
       <RoundedCube
@@ -187,23 +187,12 @@ export default function Objects() {
         scale={0.6}
       />
 
-      <NewPlane
+      <Plane
         position={[0, -height * (isMobile ? 2.2 : 2.37), 0]}
         texture={source.images[1].image}
         left={source.images[1].id % 2}
       />
 
-      {/* <Item
-        color='orangered'
-        position={[
-          width * (isMobile ? -0.16 : -0.25),
-          -height * (isMobile ? 2.75 : 2.9),
-          0.18,
-        ]}
-        wireframe={true}
-      >
-        <boxGeometry args={[1, 1, 1, 16, 16, 16]} />
-      </Item> */}
       <Pipes
         position={[
           width * (isMobile ? 0.1 : -0.2),
@@ -212,19 +201,29 @@ export default function Objects() {
         ]}
       />
 
-      <NewPlane
+      <Plane
         position={[0, -height * (isMobile ? 3.5 : 3.7), 0]}
         texture={source.images[2].image}
         left={source.images[2].id % 2}
       />
 
-      <NewPlane
+      <Plane
         position={[0, -height * (isMobile ? 4.4 : 4.6), 0]}
         texture={source.images[3].image}
         left={source.images[3].id % 2}
       />
 
-      <Flex
+      <LayerCard
+        position={[0, -height * (isMobile ? 5.55 : 5.73), 0]}
+        texture={source.images[3].image}
+        textScaleFactor={fontScale}
+        scale={1.2}
+        {...source.depthbox[0]}
+        title={source.depthbox[1].title}
+        subtitle={source.depthbox[1].subtitle}
+      />
+
+      {/* <Flex
         dir='row'
         // justify={left ? 'flex-end' : 'flex-start'}
         position={[
@@ -267,7 +266,7 @@ export default function Objects() {
             // justify='center'
             // align='center'
             wrap='wrap'
-            dir='row'
+            dir={isMobile ? 'column' : 'row'}
             // marginTop={isMobile ? 0.0 : 0}
           >
             <LayerCard
@@ -309,7 +308,7 @@ export default function Objects() {
             ))}
           </Box>
         </Box>
-      </Flex>
+      </Flex> */}
 
       {/* <mesh position={[0, -1.5, -15]} rotation-x={-Math.PI / 2}>
         <planeGeometry args={[100, 100, 100, 100]} />
@@ -329,7 +328,6 @@ export default function Objects() {
           // wireframe
         />
       </mesh> */}
-      {/* <Slider position={[-width / 2 + 5, -height / 2 - 37, 0]} /> */}
 
       <Environment preset='sunset' />
     </>

@@ -165,10 +165,10 @@ export default function Html() {
         color: '#ffffff',
 
         pointerEvents: 'none',
+        userSelect: 'none',
       }}
     >
       <section
-        // className='text-block'
         style={{
           position: 'absolute',
           top: isMobile ? '115vh' : '135vh',

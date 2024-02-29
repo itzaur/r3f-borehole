@@ -22,23 +22,13 @@ export default function Experience() {
         <ambientLight /> */}
 
         <Suspense fallback={null}>
-          {/* <ScrollControls
-            pages={window.innerWidth > 768 ? 6 : 5.5}
-            distance={0.5}
-            damping={0.5}
-          >
-            <Scroll>
-              <Content />
-            </Scroll>
-          </ScrollControls> */}
           <ScrollBasedAnimation />
         </Suspense>
       </Canvas>
 
       <Leva
-
-      // collapsed
-      // hidden
+        // collapsed
+        hidden
       />
     </>
   );

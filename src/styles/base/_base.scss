@@ -19,16 +19,6 @@ canvas {
   display: block;
 }
 
-// .scroll {
-//   position: fixed;
-//   top: 0;
-//   left: 0;
-
-//   font-size: 6rem;
-
-//   color: white;
-// }
-
 .contacts {
   position: fixed;
   top: 0;
@@ -54,13 +44,14 @@ canvas {
 
     color: hsl(216, 57%, 59%);
 
-    // @supports (background-clip: text) or (-webkit-background-clip: text) {
-    //   color: transparent;
-    //   background-clip: text;
-    //   -webkit-background-clip: text;
-    //   background-image: url(https://media.giphy.com/media/xULW8Fw2ZhznUptrYA/giphy.gif);
-    //   background-size: cover;
-    //   background-position: center;
-    // }
+    & > * {
+      transition: color 0.4s ease;
+
+      @media (hover: hover) {
+        &:hover {
+          color: hsl(0, 0%, 100%);
+        }
+      }
+    }
   }
 }

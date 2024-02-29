@@ -1,34 +1,19 @@
 import * as THREE from 'three';
-import { useTexture } from '@react-three/drei';
-import { useFrame, useThree } from '@react-three/fiber';
 import { useMemo, useRef } from 'react';
-import { Box } from '@react-three/flex';
+import { useFrame, useThree } from '@react-three/fiber';
+import { useTexture } from '@react-three/drei';
+import { Box, Flex } from '@react-three/flex';
 import gsap from 'gsap';
 
 import fragmentShader from '../shaders/cards/fragmentShader.glsl';
 import vertexShader from '../shaders/cards/vertexShader.glsl';
 
-import Text from './Text';
-
-const Plane = ({
-  texture,
-  width,
-  height,
-  active,
-  text,
-  boxWidth,
-  boxHeight,
-  depth,
-  textColor,
-  textScaleFactor,
-  id,
-  tag,
-  ...props
-}) => {
+const Plane = (props) => {
+  const { texture, left = false } = props || {};
   const mesh = useRef();
-  const box = useRef();
   const plane = useRef();
-  const { size, viewport } = useThree();
+  const { viewport } = useThree();
+  const prevMouse = new THREE.Vector2();
 
   const tex = useTexture(texture);
 
@@ -39,24 +24,27 @@ const Plane = ({
         uTexture: { value: tex },
         uDirection: { value: 0 },
         uTime: { value: 0 },
-        uScale: { value: { x: 1, y: 1 } },
-        uResolution: { value: { x: size.width, y: size.height } },
-        uImageResolution: {
-          value: { x: tex.source.data.width, y: tex.source.data.height },
-        },
-        uViewSize: { value: { x: 1, y: 1 } },
-        uPosition: { value: new THREE.Vector2() },
+        uMouse: { value: new THREE.Vector2() },
+        uMouseSpeed: { value: 0 },
+        uOpacity: { value: 1 },
       },
       fragmentShader,
       vertexShader,
     }),
-    [size.height, size.width, tex]
+    [tex]
   );
 
   useFrame((state) => {
     const time = state.clock.elapsedTime;
 
     shaderProps.uniforms.uTime.value = time;
+
+    const mouseSpeed = Math.sqrt(
+      (prevMouse.x - mesh.current.material.uniforms.uMouse.value.x) ** 2,
+      (prevMouse.y - mesh.current.material.uniforms.uMouse.value.y) ** 2
+    );
+
+    mesh.current.material.uniforms.uMouseSpeed.value = mouseSpeed;
   });
 
   const boxProps = {
@@ -64,15 +52,17 @@ const Plane = ({
     width: 'auto',
     height: 'auto',
     grow: 1,
-    margin: 1,
-    paddingTop: 0.8,
+    marginTop: 1,
+    marginLeft: window.innerWidth < 768 ? 0 : 1.4 * !left,
+    marginRight: window.innerWidth < 768 ? 0 : 1.4 * left,
+    paddingTop: 0,
     flexWrap: 'wrap',
     alignItems: 'center',
     justifyContent: 'center',
-    maxWidth: 7,
-    maxHeight: 8,
-    minWidth: 5.5,
-    minHeight: 7,
+    maxWidth: 6,
+    maxHeight: 5,
+    minWidth: 4,
+    minHeight: 5,
   };
 
   const timeline = useRef();
@@ -95,81 +85,37 @@ const Plane = ({
     });
   }
 
+  function onPointerMove(e) {
+    mesh.current.material.uniforms.uMouse.value.x = e.uv.x;
+    mesh.current.material.uniforms.uMouse.value.y = e.uv.y;
+  }
+
   return (
-    <Box
-      ref={box}
-      {...boxProps}
-      justify='center'
-      align='center'
-      alignSelf='center'
-      centerAnchor
-      position-z={-2}
-    >
-      {(width, height) => (
-        <>
-          <mesh
-            ref={mesh}
-            {...props}
-            onPointerDown={onPointerDown}
-            onPointerUp={onPointerUp}
-          >
-            <planeGeometry args={[width, height, 32, 32]} ref={plane} />
-            <shaderMaterial args={[shaderProps]} />
-          </mesh>
-
-          <Box
-            // alignContent='center'
-            alignItems='center'
-            // alignSelf='center'
-            justify='center'
-            width='auto'
-            height='auto'
-            centerAnchor
-            position-z={-2}
-
-            // alignItems='flex-start'
-          >
-            <Text
-              bold
-              position={[-width / 1.15, height - 0.2, depth - 0.5]}
-              maxWidth={(boxWidth / 3) * 1.7}
-              // maxHeight={boxHeight / 2}
-              // width={boxWidth}
-              anchorX='left'
-              anchorY='top'
-              fontSize={0.3}
-              lineHeight={1.2}
-              letterSpacing={-0.05}
-              color={textColor}
-            >
-              {text}
-              <meshBasicMaterial color='#ffffff' toneMapped={false} />
-            </Text>
-          </Box>
-
-          <Box justify='flex-start' align='space-between'>
-            <Text
-              bold
-              position={[-width / 2, height + 0.8, depth]}
-              fontSize={0.6 * textScaleFactor}
-              lineHeight={1}
-              letterSpacing={-0.05}
-              maxWidth={(viewport.width / 4) * 1.9}
-              anchorX='bottom'
-              anchorY='middle'
-              // textAlign='left'
-            >
-              {tag}
-              <meshNormalMaterial
-                color='#cccccc'
-                opacity={0.4}
-                toneMapped={false}
-              />
-            </Text>
-          </Box>
-        </>
-      )}
-    </Box>
+    <>
+      <Flex
+        dir='column'
+        position={[-viewport.width / 2, viewport.height / 2, 0]}
+        size={[viewport.width, viewport.height, 0]}
+        align={left ? 'flex-end' : 'flex-start'}
+      >
+        <Box {...boxProps} dir='row' width='100%' height='100%' flexWrap='wrap'>
+          {(width, height) => (
+            <>
+              <mesh
+                ref={mesh}
+                {...props}
+                onPointerDown={onPointerDown}
+                onPointerUp={onPointerUp}
+                onPointerMove={onPointerMove}
+              >
+                <planeGeometry args={[width, height, 32, 32]} ref={plane} />
+                <shaderMaterial args={[shaderProps]} />
+              </mesh>
+            </>
+          )}
+        </Box>
+      </Flex>
+    </>
   );
 };
 

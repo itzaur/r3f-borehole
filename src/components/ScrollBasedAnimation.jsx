@@ -1,14 +1,15 @@
+import { useThree } from '@react-three/fiber';
 import { Scroll, ScrollControls } from '@react-three/drei';
 import Background from './Background';
 import Objects from './Objects';
 import Html from './Html';
-import { useThree } from '@react-three/fiber';
 
 export default function ScrollBasedAnimation() {
   const { viewport } = useThree();
+
   return (
     <ScrollControls
-      pages={window.innerWidth < 768 ? 6.45 : 7}
+      pages={window.innerWidth < 768 ? 6.8 : 7}
       distance={0.5}
       damping={0.5}
       style={{

@@ -1,4 +1,3 @@
-import * as THREE from 'three';
 import { Float, useGLTF } from '@react-three/drei';
 import { useControls } from 'leva';
 import { useMemo, useRef } from 'react';
