@@ -1,5 +1,6 @@
 import { useThree } from '@react-three/fiber';
 import { Scroll, ScrollControls } from '@react-three/drei';
+
 import Background from './Background';
 import Objects from './Objects';
 import Html from './Html';
@@ -22,18 +23,6 @@ export default function ScrollBasedAnimation() {
           scale={[viewport.width, viewport.height, 1]}
           position-z={-7}
         />
-
-        {/* <NewPlane
-          item={source.images[0]}
-          boxWidth={viewport.width}
-          boxHeight={viewport.height}
-          textScaleFactor={1}
-          {...source.images[0]}
-          text={source.images[0].text}
-          tag={source.images[0].tag}
-          position-z={-0.9}
-        /> */}
-
         <Objects />
       </Scroll>
       <Scroll html>

@@ -1,8 +1,9 @@
 import '../src/styles/App.scss';
 import { Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
-// import {  ScrollControls } from '@react-three/drei';
+import { Loader, Preload } from '@react-three/drei';
 import { Leva, useControls } from 'leva';
+
 import source from './resources.js';
 import ScrollBasedAnimation from './components/ScrollBasedAnimation.jsx';
 
@@ -18,17 +19,23 @@ export default function Experience() {
       <Canvas flat shadows gl={{ alpha: false, antialias: true }}>
         <color attach='background' args={[color]} />
 
-        {/* <directionalLight intensity={1.5} ref={directionalLight} />
-        <ambientLight /> */}
-
         <Suspense fallback={null}>
           <ScrollBasedAnimation />
+          <Preload all />
         </Suspense>
       </Canvas>
 
-      <Leva
-        // collapsed
-        hidden
+      <Leva hidden />
+      <Loader
+        containerStyles={{ backgroundColor: color }}
+        innerStyles={{ backgroundColor: '#FBFBFD' }}
+        dataStyles={{
+          color: '#5b8bd2',
+          fontWeight: 'normal',
+          fontSize: '2rem',
+        }}
+        barStyles={{ backgroundColor: '#5b8bd2' }}
+        dataInterpolation={(p) => `${p.toFixed(2)}`}
       />
     </>
   );

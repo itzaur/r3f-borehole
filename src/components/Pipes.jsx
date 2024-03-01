@@ -35,7 +35,6 @@ export default function Pipes(props) {
         receiveShadow
         geometry={nodes.Cylinder.geometry}
         material={materials.Material}
-        // position={[0.8, 0, 0]}
       />
     </group>
   );

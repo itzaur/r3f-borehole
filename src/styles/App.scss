@@ -1,6 +1,3 @@
-@use './abstracts/mixins';
-@use './abstracts/variables';
-
-@use './base/base';
-@use './base/reset';
-@use './base/typography';
+@use './main';
+@use './reset';
+@use './typography';

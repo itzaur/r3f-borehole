@@ -25,11 +25,11 @@ const LayerCard = (props) => {
   const tex = useTexture(texture);
   const depthboxTextures = useLoader(
     THREE.TextureLoader,
-    source.content[1].images
+    source.content[0].images
   );
   const depthboxUnderTextures = useLoader(
     THREE.TextureLoader,
-    source.content[1].underImages
+    source.content[0].underImages
   );
 
   const prevMouse = new THREE.Vector2();
@@ -63,7 +63,6 @@ const LayerCard = (props) => {
 
     mesh.current.material.uniforms.uMouseSpeed.value = mouseSpeed;
 
-    // ref.current.opacity = 1 - scroll.range(0.92, 0.2);
     ref.current.uniforms.uOpacity.value = 1 - scroll.range(0.94, 0.05);
   });
 
@@ -71,11 +70,6 @@ const LayerCard = (props) => {
     centerAnchor: true,
     width: 'auto',
     height: 'auto',
-    // grow: 1,
-    // marginTop: 1,
-    // marginLeft: 0,
-    // marginRight: 0,
-    // paddingTop: 0,
     flexWrap: 'wrap',
     alignItems: 'center',
     justifyContent: 'center',
@@ -121,7 +115,6 @@ const LayerCard = (props) => {
         <Box
           {...boxProps}
           dir={isMobile ? 'column' : 'row'}
-          //   dir='row'
           width='100%'
           height='100%'
           flexWrap='wrap'
@@ -136,13 +129,6 @@ const LayerCard = (props) => {
                 onPointerMove={onPointerMove}
               >
                 <planeGeometry args={[width, height, 32, 32]} ref={plane} />
-                {/* <meshStandardMaterial
-                  ref={ref}
-                  map={tex}
-                  transparent
-                  toneMapped={false}
-                  color={color}
-                /> */}
                 <shaderMaterial ref={ref} args={[shaderProps]} transparent />
               </mesh>
 

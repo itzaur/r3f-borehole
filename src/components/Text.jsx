@@ -1,13 +1,13 @@
 import { Text as TextPage } from '@react-three/drei';
-// import { useReflow } from '@react-three/flex';
 
-export default function Text({
-  bold = false,
-  anchorX = 'left',
-  anchorY = 'top',
-  textAlign = 'left',
-  ...props
-}) {
+export default function Text(props) {
+  const {
+    bold = false,
+    anchorX = 'left',
+    anchorY = 'top',
+    textAlign = 'left',
+    ...otherProps
+  } = props || {};
   const font = bold ? './font/DelaGothicOne-Regular.ttf' : './font/Arial.ttf';
 
   return (
@@ -16,8 +16,7 @@ export default function Text({
       anchorY={anchorY}
       textAlign={textAlign}
       font={font}
-      // onSync={reflow}
-      {...props}
+      {...otherProps}
     />
   );
 }

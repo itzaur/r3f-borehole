@@ -1,8 +1,9 @@
 import * as THREE from 'three';
 import { useMemo, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { useControls } from 'leva';
 import { useTexture } from '@react-three/drei';
+import { useControls } from 'leva';
+
 import source from '../resources.js';
 import vertexShader from '../../src/shaders/vertexShader.glsl';
 import fragmentShader from '../../src/shaders/fragmentShader.glsl';
@@ -68,21 +69,25 @@ export default function Background(props) {
         uRadius: { value: isMobile ? 1.6 : 2.5 },
         uLightIntensity: { value: lightIntensity },
         uScale: { value: new THREE.Vector2(1, 1) },
-
-        uCol1: { value: 0.1641 },
-        uCol2: { value: 0.3731 },
-        uCol3: { value: 0.2502 },
       },
       fragmentShader,
       vertexShader,
       wireframe: wireframe,
     }),
-    []
+    [
+      color,
+      isMobile,
+      lightIntensity,
+      mapColor,
+      mapNormal,
+      mapRoughness,
+      wireframe,
+    ]
   );
 
   function onPointerMove(e) {
     const ratio = window.innerHeight / window.innerWidth;
-    // const ratio2 = window.innerWidth / window.innerHeight;
+
     const x = (e.clientX / window.innerWidth) * 2 - 1;
     const y = -((e.clientY / window.innerHeight) * 2 - 1);
 
@@ -103,20 +108,6 @@ export default function Background(props) {
 
     material.current.uniforms.uResolution.value.x = state.gl.domElement.width;
     material.current.uniforms.uResolution.value.y = state.gl.domElement.height;
-    // material.current.uniforms.uResolution.value.x = window.innerWidth;
-    // material.current.uniforms.uResolution.value.y = window.innerHeight;
-
-    // if (imageAspect > state.camera.aspect) {
-    //   material.current.uniforms.uScale.value.set(
-    //     imageAspect / state.camera.aspect,
-    //     1
-    //   );
-    // } else {
-    //   material.current.uniforms.uScale.value.set(
-    //     1,
-    //     state.camera.aspect / imageAspect
-    //   );
-    // }
   });
 
   return (
