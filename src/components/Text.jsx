@@ -1,4 +1,4 @@
-import { Text as TextPage } from '@react-three/drei';
+import { Text as TextPage, useFont } from '@react-three/drei';
 
 export default function Text(props) {
   const {
@@ -20,3 +20,6 @@ export default function Text(props) {
     />
   );
 }
+
+useFont.preload('/font/DelaGothicOne-Regular.ttf');
+useFont.preload('/font/Arial.ttf');

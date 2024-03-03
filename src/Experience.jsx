@@ -30,11 +30,11 @@ export default function Experience() {
         containerStyles={{ backgroundColor: color }}
         innerStyles={{ backgroundColor: '#FBFBFD' }}
         dataStyles={{
-          color: '#5b8bd2',
+          color: '#57a5cb',
           fontWeight: 'normal',
           fontSize: '2rem',
         }}
-        barStyles={{ backgroundColor: '#5b8bd2' }}
+        barStyles={{ backgroundColor: '#57a5cb' }}
         dataInterpolation={(p) => `${p.toFixed(2)}`}
       />
     </>

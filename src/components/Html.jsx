@@ -20,6 +20,9 @@ export default function Html() {
 
   const isMobile = window.innerWidth < 768;
   const MARGIN_LEFT = 32;
+  const PARALLAX_KOEF = 500;
+  const PARALLAX_KOEF2 = 450;
+  const PARALLAX_KOEF3 = 350;
   const fontSizeTitle = 'min(6vw, 8rem)';
   const fontSizeText = 'min(5vw, 2.6rem)';
 
@@ -40,7 +43,7 @@ export default function Html() {
           arrangement.current,
         ],
         {
-          y: `${scroll.offset * -500}`,
+          y: `${scroll.offset * -PARALLAX_KOEF}`,
         }
       )
       .to(
@@ -67,7 +70,7 @@ export default function Html() {
           arrangementInfo.current,
         ],
         {
-          y: `${scroll.offset * -450}`,
+          y: `${scroll.offset * -PARALLAX_KOEF2}`,
         },
         '<0.2'
       )
@@ -88,7 +91,7 @@ export default function Html() {
       .to(
         installmentDiscount.current,
         {
-          y: `${scroll.offset * -350}`,
+          y: `${scroll.offset * -PARALLAX_KOEF3}`,
           opacity: scroll.range(0.2, 0.1),
         },
         '<-0.2'

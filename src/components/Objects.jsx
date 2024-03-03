@@ -9,6 +9,7 @@ import Pipes from './Pipes.jsx';
 import Video from './Video.jsx';
 import Guarantee from './Guarantee.jsx';
 import LayerCard from './LayerCard.jsx';
+import Practice from './Practice.jsx';
 
 export default function Objects() {
   const { width, height } = useThree((state) => state.viewport);
@@ -72,6 +73,11 @@ export default function Objects() {
         по Могилеву и Могилевской области
       </Text>
 
+      <Practice
+        scale={0.05}
+        position={[isMobile ? 0.8 : width / 2.6, 0, -0.1]}
+      />
+
       <Plane
         position={[0, -height + (isMobile ? 1.2 : 0), 0]}
         texture={source.images[0].image}
@@ -79,8 +85,8 @@ export default function Objects() {
       />
 
       <Guarantee
-        scale={0.06}
-        position={[isMobile ? -0.7 : width / 5, isMobile ? -0.8 : -6.5, 0]}
+        scale={isMobile ? 0.04 : 0.06}
+        position={[isMobile ? -1.2 : width / 5, isMobile ? -1 : -6.5, 0]}
       />
 
       <RoundedCube
