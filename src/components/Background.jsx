@@ -1,28 +1,33 @@
 import * as THREE from 'three';
-import { useEffect, useMemo, useRef } from 'react';
+import { useMemo, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
+import { useTexture } from '@react-three/drei';
+import { useControls } from 'leva';
+
+import source from '../resources.js';
 import vertexShader from '../../src/shaders/vertexShader.glsl';
 import fragmentShader from '../../src/shaders/fragmentShader.glsl';
-import { useControls } from 'leva';
-import resources from '../resources.js';
-import { useTexture } from '@react-three/drei';
 
 export default function Background(props) {
   const { size, scale } = props || {};
   const mesh = useRef();
   const material = useRef();
 
-  const texturesUrls = resources
+  const isMobile = window.innerWidth < 768;
+
+  const texturesUrls = source.textures
     .filter((texture) => texture.url)
     .map((el) => el.url);
 
   const [mapColor, mapNormal, mapRoughness] = useTexture(texturesUrls);
-  mapColor.colorSpace = THREE.SRGBColorSpace;
-  mapColor.wrapS = THREE.RepeatWrapping;
-  mapColor.wrapT = THREE.RepeatWrapping;
-  mapColor.minFilter = THREE.LinearFilter;
+  [mapColor, mapNormal, mapRoughness].forEach((tex) => {
+    tex.colorSpace = THREE.SRGBColorSpace;
+    tex.wrapS = THREE.RepeatWrapping;
+    tex.wrapT = THREE.RepeatWrapping;
+    tex.minFilter = THREE.LinearFilter;
+  });
 
-  const { color, wireframe } = useControls('mesh', {
+  const { color, wireframe, lightIntensity } = useControls('mesh', {
     color: {
       value: '#4a5c5c',
       onChange: (value) => {
@@ -38,6 +43,12 @@ export default function Background(props) {
     position: {
       value: { x: 0, y: 0, z: 0 },
       step: 0.1,
+    },
+    lightIntensity: {
+      value: 10,
+      min: 1,
+      max: 20,
+      step: 0.01,
     },
   });
 
@@ -55,40 +66,48 @@ export default function Background(props) {
         uMouse: { value: new THREE.Vector2() },
         uMousemoved: { value: false },
         uProgress: { value: 0 },
-        uRadius: { value: 2 },
-        uLightIntensity: { value: 3 },
+        uRadius: { value: isMobile ? 1.6 : 2.5 },
+        uLightIntensity: { value: lightIntensity },
+        uScale: { value: new THREE.Vector2(1, 1) },
       },
       fragmentShader,
       vertexShader,
       wireframe: wireframe,
     }),
-    [color, mapColor, mapNormal, mapRoughness, wireframe]
+    [
+      color,
+      isMobile,
+      lightIntensity,
+      mapColor,
+      mapNormal,
+      mapRoughness,
+      wireframe,
+    ]
   );
 
   function onPointerMove(e) {
     const ratio = window.innerHeight / window.innerWidth;
+
     const x = (e.clientX / window.innerWidth) * 2 - 1;
     const y = -((e.clientY / window.innerHeight) * 2 - 1);
 
-    shaderProps.uniforms.uMouse.value.x = x * ratio;
-    shaderProps.uniforms.uMouse.value.y = y;
+    shaderProps.uniforms.uMouse.value.x = x;
+    shaderProps.uniforms.uMouse.value.y = y * ratio;
 
-    shaderProps.uniforms.uMousemoved.value = true;
+    shaderProps.uniforms.uMousemoved.value = isMobile ? false : true;
   }
 
   function onPointerLeave() {
     shaderProps.uniforms.uMousemoved.value = false;
   }
 
-  useEffect(() => {
-    material.current.uniforms.uResolution.value.x = window.innerWidth;
-    material.current.uniforms.uResolution.value.y = window.innerHeight;
-    material.current.extensions.derivatives = true;
-  });
-
   useFrame((state) => {
     const time = state.clock.elapsedTime;
     material.current.uniforms.uTime.value = time * 0.2;
+    material.current.uniforms.uLightIntensity.value = lightIntensity;
+
+    material.current.uniforms.uResolution.value.x = state.gl.domElement.width;
+    material.current.uniforms.uResolution.value.y = state.gl.domElement.height;
   });
 
   return (

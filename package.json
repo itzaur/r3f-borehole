@@ -4,33 +4,38 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vite build",
+    "deploy": "vercel --prod",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@react-three/drei": "^9.92.7",
-    "@react-three/fiber": "^8.15.12",
+    "@react-three/drei": "^9.99.5",
+    "@react-three/fiber": "^8.15.19",
     "@react-three/flex": "^1.0.1",
-    "@types/three": "^0.160.0",
+    "@react-three/postprocessing": "^2.16.0",
+    "@types/three": "^0.162.0",
+    "gsap": "^3.12.5",
     "leva": "^0.9.35",
+    "postprocessing": "^6.35.0",
     "r3f-perf": "^7.1.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "three": "^0.160.0"
+    "three": "^0.162.0",
+    "vercel": "^33.5.3"
   },
   "devDependencies": {
     "@react-three/eslint-plugin": "^0.1.1",
-    "@types/react": "^18.2.46",
-    "@types/react-dom": "^18.2.18",
+    "@types/react": "^18.2.61",
+    "@types/react-dom": "^18.2.19",
     "@vitejs/plugin-react": "^4.2.1",
-    "eslint": "^8.56.0",
-    "eslint-plugin-react": "^7.33.2",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react": "^7.34.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
-    "sass": "^1.69.6",
-    "vite": "^5.0.10",
+    "sass": "^1.71.1",
+    "vite": "^5.1.4",
     "vite-plugin-glsl": "^1.2.1"
   }
 }

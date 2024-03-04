@@ -1,28 +1,42 @@
 import '../src/styles/App.scss';
+import { Suspense } from 'react';
+import { Canvas } from '@react-three/fiber';
+import { Loader, Preload } from '@react-three/drei';
+import { Leva, useControls } from 'leva';
 
-import { useThree } from '@react-three/fiber';
-import { Perf } from 'r3f-perf';
-import { useControls } from 'leva';
-
-import Background from './components/Background';
+import source from './resources.js';
+import ScrollBasedAnimation from './components/ScrollBasedAnimation.jsx';
 
 export default function Experience() {
-  const { viewport } = useThree();
-
-  const options = useControls({
-    debug: { value: false },
-    colorBg: {
-      value: '#ffffff',
+  const { color } = useControls({
+    color: {
+      value: source.bg,
     },
   });
 
   return (
     <>
-      {options.debug && <Perf position='top-left' />}
+      <Canvas flat shadows gl={{ alpha: false, antialias: true }}>
+        <color attach='background' args={[color]} />
 
-      <color attach='background' args={[options.colorBg]} />
+        <Suspense fallback={null}>
+          <ScrollBasedAnimation />
+          <Preload all />
+        </Suspense>
+      </Canvas>
 
-      <Background size={[2, 2]} scale={[viewport.width, viewport.height, 1]} />
+      <Leva hidden />
+      <Loader
+        containerStyles={{ backgroundColor: color }}
+        innerStyles={{ backgroundColor: '#FBFBFD' }}
+        dataStyles={{
+          color: '#57a5cb',
+          fontWeight: 'normal',
+          fontSize: '2rem',
+        }}
+        barStyles={{ backgroundColor: '#57a5cb' }}
+        dataInterpolation={(p) => `${p.toFixed(2)}`}
+      />
     </>
   );
 }
