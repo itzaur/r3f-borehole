@@ -21,9 +21,9 @@ export default function Objects() {
 
   useFrame((state) => {
     const e = scroll.range(0.91, 0.1);
-    let offset = 1 - scroll.offset;
+    const offset = 1 - scroll.offset;
 
-    let theta = 65.5;
+    const theta = 65.5;
 
     if (e) {
       state.camera.position.z = offset * theta - 0.9;
