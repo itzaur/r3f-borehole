@@ -12,7 +12,7 @@ export default function DepthPlane(props) {
   const mesh = useRef();
   const [hovered, setHover] = useState(false);
 
-  const dispTexture = useTexture('./images/disp.png');
+  const dispTexture = useTexture('./images/disp.jpg');
 
   const shaderProps = useMemo(
     () => ({
