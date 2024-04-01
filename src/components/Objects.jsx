@@ -70,7 +70,7 @@ export default function Objects() {
         maxWidth={(width / 4) * 3}
         curveRadius={30}
       >
-        по Могилеву и Могилевской области
+        в Могилеве и Могилевской области
       </Text>
 
       <Practice

@@ -20,14 +20,14 @@ const source = {
   ],
 
   textures: [
-    { name: 'MapColor', url: 'https://iili.io/HED0SXj.png' },
+    { name: 'MapColor', url: './textures/Lava_001_COLOR.jpg' },
     {
       name: 'MapNormal',
-      url: 'https://raw.githubusercontent.com/pizza3/asset/master/chaassets/Lava/Lava_001_NRM.webp',
+      url: './textures/Lava_001_NRM.jpg',
     },
     {
       name: 'MapRoughness',
-      url: 'https://raw.githubusercontent.com/pizza3/asset/master/chaassets/Lava/Lava_001_OCC.webp',
+      url: './textures/Lava_001_OCC.jpg',
     },
   ],
 

@@ -16,7 +16,11 @@ export default function Experience() {
 
   return (
     <>
-      <Canvas flat shadows gl={{ alpha: false, antialias: true }}>
+      <Canvas
+        flat
+        shadows
+        gl={{ alpha: false, antialias: true, preserveDrawingBuffer: true }}
+      >
         <color attach='background' args={[color]} />
 
         <Suspense fallback={null}>
@@ -26,7 +30,7 @@ export default function Experience() {
       </Canvas>
 
       <Leva hidden />
-      <Loader
+      {/* <Loader
         containerStyles={{ backgroundColor: color }}
         innerStyles={{ backgroundColor: '#FBFBFD' }}
         dataStyles={{
@@ -36,7 +40,7 @@ export default function Experience() {
         }}
         barStyles={{ backgroundColor: '#57a5cb' }}
         dataInterpolation={(p) => `${p.toFixed(2)}`}
-      />
+      /> */}
     </>
   );
 }
