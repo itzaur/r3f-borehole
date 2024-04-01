@@ -19,7 +19,7 @@ export default function Html() {
   const arrangementInfo = useRef();
 
   const isMobile = window.innerWidth < 768;
-  const MARGIN_LEFT = 32;
+  const MARGIN_LEFT = isMobile ? 7 : 32;
   const PARALLAX_KOEF = 500;
   const PARALLAX_KOEF2 = 450;
   const PARALLAX_KOEF3 = 350;
@@ -173,7 +173,7 @@ export default function Html() {
           style={{
             position: 'absolute',
             top: isMobile ? '115vh' : '130vh',
-            left: isMobile ? '0' : `${MARGIN_LEFT}vw`,
+            left: `${MARGIN_LEFT}vw`,
 
             paddingLeft: '2rem',
           }}
@@ -222,7 +222,7 @@ export default function Html() {
           style={{
             position: 'absolute',
             top: '210vh',
-            left: isMobile ? '0' : `${MARGIN_LEFT}vw`,
+            left: `${MARGIN_LEFT}vw`,
 
             display: 'flex',
             flexDirection: 'column',
@@ -288,7 +288,7 @@ export default function Html() {
           style={{
             position: 'absolute',
             top: isMobile ? '275vh' : '283vh',
-            left: isMobile ? '0' : `${MARGIN_LEFT}vw`,
+            left: `${MARGIN_LEFT}vw`,
 
             display: 'flex',
             flexDirection: 'column',
@@ -327,7 +327,7 @@ export default function Html() {
           style={{
             position: 'absolute',
             top: isMobile ? '350vh' : '355vh',
-            left: isMobile ? '0' : `${MARGIN_LEFT}vw`,
+            left: `${MARGIN_LEFT}vw`,
 
             display: 'flex',
             flexDirection: 'column',
@@ -363,7 +363,7 @@ export default function Html() {
           style={{
             position: 'absolute',
             top: isMobile ? '420vh' : '430vh',
-            left: isMobile ? '0' : `${MARGIN_LEFT}vw`,
+            left: `${MARGIN_LEFT}vw`,
 
             paddingLeft: '2rem',
           }}
@@ -400,7 +400,7 @@ export default function Html() {
           style={{
             position: 'absolute',
             top: isMobile ? '520vh' : '525vh',
-            left: isMobile ? '0' : `${MARGIN_LEFT}vw`,
+            left: `${MARGIN_LEFT}vw`,
 
             display: 'flex',
             flexDirection: 'column',
