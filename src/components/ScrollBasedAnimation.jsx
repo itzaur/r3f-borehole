@@ -11,7 +11,7 @@ export default function ScrollBasedAnimation() {
   return (
     <ScrollControls
       pages={window.innerWidth < 768 ? 6.8 : 7}
-      distance={0.5}
+      distance={0.65}
       damping={0.5}
       style={{
         scrollbarWidth: 'none',
