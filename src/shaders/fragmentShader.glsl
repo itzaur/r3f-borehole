@@ -22,16 +22,15 @@ vec3 texsample(in vec2 uv, in vec2 sampleOffset, in sampler2D sampler_u) {
   return texture2D(sampler_u, uv).zyx;
 }
 
-float luminance(vec3 c) {
-
+float bgLuminance(vec3 c) {
   return dot(c, vec3(.2126, .7152, .0722));
 }
 
 vec3 normal(in vec2 uv, in sampler2D sampler_u, vec3 offset) {
-  float R = abs(luminance(texsample(uv, offset.xz, sampler_u)));
-  float L = abs(luminance(texsample(uv, -offset.xz, sampler_u)));
-  float D = abs(luminance(texsample(uv, offset.zy, sampler_u)));
-  float U = abs(luminance(texsample(uv, -offset.zy, sampler_u)));
+  float R = abs(bgLuminance(texsample(uv, offset.xz, sampler_u)));
+  float L = abs(bgLuminance(texsample(uv, -offset.xz, sampler_u)));
+  float D = abs(bgLuminance(texsample(uv, offset.zy, sampler_u)));
+  float U = abs(bgLuminance(texsample(uv, -offset.zy, sampler_u)));
 
   float X = (L - R) * .5;
   float Y = (U - D) * .5;
