@@ -122,3 +122,7 @@ export default function Background(props) {
     </mesh>
   );
 }
+
+useTexture.preload('/textures/Lava_001_COLOR.jpg');
+useTexture.preload('/textures/Lava_001_NRM.jpg');
+useTexture.preload('/textures/Lava_001_OCC.jpg');

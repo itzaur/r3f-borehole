@@ -12,7 +12,7 @@ export default function DepthPlane(props) {
   const mesh = useRef();
   const [hovered, setHover] = useState(false);
 
-  const dispTexture = useTexture('./images/disp.png');
+  const dispTexture = useTexture('./images/disp.jpg');
 
   const shaderProps = useMemo(
     () => ({
@@ -23,7 +23,7 @@ export default function DepthPlane(props) {
         uDispTexture: { value: dispTexture },
         uDispFactor: { value: 0 },
         uOpacity: { value: 0 },
-        uEffectFactor: { value: 1.2 },
+        uEffectFactor: { value: 1.0 },
         uScale: { value: new THREE.Vector2(1, 1) },
       },
       fragmentShader: depthFragmentShader,
@@ -50,7 +50,7 @@ export default function DepthPlane(props) {
     ref.current.uniforms.uDispFactor.value = THREE.MathUtils.lerp(
       ref.current.uniforms.uDispFactor.value,
       hovered ? 1 : 0,
-      0.075
+      0.1
     );
   });
 
@@ -75,3 +75,5 @@ export default function DepthPlane(props) {
     </>
   );
 }
+
+useTexture.preload('/images/disp.jpg');

@@ -19,7 +19,7 @@ export default function Html() {
   const arrangementInfo = useRef();
 
   const isMobile = window.innerWidth < 768;
-  const MARGIN_LEFT = 32;
+  const MARGIN_LEFT = isMobile ? 7 : 32;
   const PARALLAX_KOEF = 500;
   const PARALLAX_KOEF2 = 450;
   const PARALLAX_KOEF3 = 350;
@@ -49,7 +49,7 @@ export default function Html() {
       .to(
         title.current,
         {
-          opacity: scroll.range(isMobile ? 0.02 : 0.07, 0.1),
+          opacity: scroll.range(isMobile ? 0.02 : 0.05, 0.1),
         },
         '<0'
       )
@@ -77,7 +77,7 @@ export default function Html() {
       .to(
         subtitle.current,
         {
-          opacity: scroll.range(isMobile ? 0.03 : 0.08, 0.08),
+          opacity: scroll.range(isMobile ? 0.03 : 0.06, 0.08),
         },
         '<0'
       )
@@ -172,8 +172,8 @@ export default function Html() {
         <section
           style={{
             position: 'absolute',
-            top: isMobile ? '115vh' : '135vh',
-            left: isMobile ? '0' : `${MARGIN_LEFT}vw`,
+            top: isMobile ? '115vh' : '130vh',
+            left: `${MARGIN_LEFT}vw`,
 
             paddingLeft: '2rem',
           }}
@@ -190,7 +190,7 @@ export default function Html() {
           <div
             ref={subtitle}
             style={{
-              width: 'min(100%, 42ch)',
+              width: 'min(100%, 55ch)',
 
               paddingTop: isMobile ? '1.5rem' : '2rem',
 
@@ -205,7 +205,16 @@ export default function Html() {
               <li>приезд к месту бурения скважины;</li>
               <li>работы по бурению;</li>
               <li>обсадные трубы;</li>
-              <li>заводской скважинный фильтр.</li>
+              <li>
+                установка фильтра с волокнисто-полимерным напылением в
+                водоносный горизонт;
+              </li>
+              <li>промывка колонны обсадных труб и фильтра скважины;</li>
+              <li>прокачка скважины до визуально чистой воды;</li>
+              <li>
+                рекомендации по выбору и подключеию насосного оборудования;
+              </li>
+              <li>рекомендации по эксплуатации скважины.</li>
             </ul>
           </div>
         </section>
@@ -213,7 +222,7 @@ export default function Html() {
           style={{
             position: 'absolute',
             top: '210vh',
-            left: isMobile ? '0' : `${MARGIN_LEFT}vw`,
+            left: `${MARGIN_LEFT}vw`,
 
             display: 'flex',
             flexDirection: 'column',
@@ -279,7 +288,7 @@ export default function Html() {
           style={{
             position: 'absolute',
             top: isMobile ? '275vh' : '283vh',
-            left: isMobile ? '0' : `${MARGIN_LEFT}vw`,
+            left: `${MARGIN_LEFT}vw`,
 
             display: 'flex',
             flexDirection: 'column',
@@ -318,7 +327,7 @@ export default function Html() {
           style={{
             position: 'absolute',
             top: isMobile ? '350vh' : '355vh',
-            left: isMobile ? '0' : `${MARGIN_LEFT}vw`,
+            left: `${MARGIN_LEFT}vw`,
 
             display: 'flex',
             flexDirection: 'column',
@@ -343,7 +352,7 @@ export default function Html() {
               fontSize: fontSizeText,
             }}
           >
-            Трубы для обустройства скважин включают в себя обсадные трубы
+            Для обустройства скважины используются обсадные трубы
             &lsquo;Хемкор&rsquo; из непластифицированного поливинилхлорида
             (НПВХ) диаметром от 90 до 125 мм. Также в комплект входит заводской
             скважинный фильтр длиной 2 м.
@@ -354,7 +363,7 @@ export default function Html() {
           style={{
             position: 'absolute',
             top: isMobile ? '420vh' : '430vh',
-            left: isMobile ? '0' : `${MARGIN_LEFT}vw`,
+            left: `${MARGIN_LEFT}vw`,
 
             paddingLeft: '2rem',
           }}
@@ -391,7 +400,7 @@ export default function Html() {
           style={{
             position: 'absolute',
             top: isMobile ? '520vh' : '525vh',
-            left: isMobile ? '0' : `${MARGIN_LEFT}vw`,
+            left: `${MARGIN_LEFT}vw`,
 
             display: 'flex',
             flexDirection: 'column',

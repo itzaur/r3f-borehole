@@ -16,7 +16,11 @@ export default function Experience() {
 
   return (
     <>
-      <Canvas flat shadows gl={{ alpha: false, antialias: true }}>
+      <Canvas
+        flat
+        shadows
+        gl={{ alpha: false, antialias: true, preserveDrawingBuffer: true }}
+      >
         <color attach='background' args={[color]} />
 
         <Suspense fallback={null}>
